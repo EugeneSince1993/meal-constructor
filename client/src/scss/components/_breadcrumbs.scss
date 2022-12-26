@@ -1,0 +1,20 @@
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  margin-left: 25px;
+  margin-bottom: 18px;
+  
+  .breadcrumbs__link, img {
+    display: block;
+    margin-right: 4px;
+  }
+
+  .breadcrumbs__link {
+    font-size: 10px;
+    color: $gray-2;
+
+    &.breadcrumbs__link_active {
+      color: $black-2;
+    }
+  }
+}

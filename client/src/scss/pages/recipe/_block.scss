@@ -1,0 +1,23 @@
+.recipe-block {
+
+  .recipe-block__heading {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;  
+
+    h4 {
+      font-size: 21px;
+      line-height: 25.41px;
+      color: $black-2;
+      margin-right: 6px;
+    }
+
+    img {
+      width: 18px;
+    }
+  }
+
+  .recipe-block__buttons {
+    margin-bottom: 20px;
+  }
+}

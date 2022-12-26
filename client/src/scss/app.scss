@@ -1,0 +1,21 @@
+@import './libs/normalize';
+
+@import './_fonts';
+
+@import './_variables';
+
+@import './_global';
+
+@import './components/_app';
+@import './components/_breadcrumbs';
+@import './components/_button';
+@import './components/_drawer';
+@import './components/_header';
+@import './components/_table';
+@import './pages/_burger-constructor';
+@import './pages/recipe/_index';
+@import './pages/recipe/_block';
+@import './pages/recipe/_content';
+@import './pages/recipe/_menu';
+
+@import './_custom';

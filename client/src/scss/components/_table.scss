@@ -1,0 +1,88 @@
+.table {
+
+  .table__header.table-header {
+    display: flex;
+    background-color: $light-gray-2;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    .table-header__empty-block {
+      width: 32px;
+    }
+
+    .table-header__checkbox {
+      width: 32px;
+      margin-right: 15px;
+
+      .checkbox-container {
+        display: block;
+        position: relative;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+
+        .checkbox-container__input {
+          position: absolute;
+          opacity: 0;
+          cursor: pointer;
+          height: 0;
+          width: 0;
+
+          &:checked ~ .checkbox-container__checkmark:after {
+            display: block;
+          }
+        }
+
+        .checkbox-container__checkmark {
+          position: absolute;
+          top: 4px;
+          left: 0;
+          height: 16px;
+          width: 16px;
+          border-radius: 4px;
+          border: 1px solid $gray-3;
+          background-color: $light-gray-2;
+          cursor: pointer;
+
+          &:after {
+            content: "";
+            position: absolute;
+            display: none;
+            left: 4px;
+            top: 1px;
+            width: 4px;
+            height: 8px;
+            border: solid $black-3;
+            border-width: 0 2px 2px 0;
+            -webkit-transform: rotate(40deg);
+            -ms-transform: rotate(40deg);
+            transform: rotate(40deg);
+          }
+        }
+      }
+    }
+
+    .table-header__title {
+      width: 400px;
+      color: $gray-2;
+    }
+
+    .table-header__weight {
+      width: 38px;
+      margin-right: 15px;
+      color: $gray-2;
+    }
+
+    .table-header__kcal {
+      width: 50px;
+      margin-right: 15px;
+      color: $gray-2;
+    }
+
+    .table-header__annotation {
+      width: 120px;
+      color: $gray-2;
+    }
+  }
+}

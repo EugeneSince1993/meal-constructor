@@ -1,0 +1,43 @@
+.button {
+  display: inline-block;
+  margin-right: 12px;
+  border-radius: 6px;
+  padding: 4px 12px 4px 4px;
+  cursor: pointer;
+
+  &.button_outlined {
+    border: 1px solid $red-1;
+    background-color: $white-1;
+
+    .button__inner {
+
+      span {
+        color: $red-1;
+        font-weight: 500;
+      }
+    }
+  }
+
+  &.button_solid {
+    border: 1px solid $red-1;
+    background-color: $red-1; 
+
+    .button__inner {
+
+      span {
+        color: $white-1;
+        font-weight: 500;
+      }
+    }
+  }
+
+  .button__inner {
+    display: flex;
+    justify-content: center;
+
+    img,
+    span {
+      display: block;
+    }
+  }
+}

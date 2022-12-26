@@ -1,0 +1,39 @@
+.recipe-menu {
+  background-color: $red-1;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  
+  nav {
+
+    .recipe-menu-list {
+      display: flex;
+
+      .recipe-menu-list__item.recipe-menu-list-item {
+        padding-left: 25px;
+        padding-right: 25px;
+
+        &.recipe-menu-list__item_active {
+
+          a {
+            padding-bottom: 6px;
+          }
+        }
+        
+        a {
+          display: block;
+          text-decoration: none;
+          color: $white-1;
+          padding-top: 10px;
+          padding-bottom: 10px;
+        }
+
+        .recipe-menu-list-item__border-bottom {
+          width: 100%;
+          height: 4px;
+          border-radius: 4px 4px 0 0;
+          background-color: $white-1;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,1 @@
+The meal constructor is an app where you can choose a dish and create an unique recipe of it.
