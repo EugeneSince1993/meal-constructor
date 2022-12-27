@@ -2,7 +2,7 @@
   display: inline-block;
   margin-right: 12px;
   border-radius: 6px;
-  padding: 4px 12px 4px 4px;
+  padding: 4px 10px;
   cursor: pointer;
 
   &.button_outlined {
@@ -38,6 +38,10 @@
     img,
     span {
       display: block;
+    }
+
+    img {
+      margin-right: 8px;
     }
   }
 }

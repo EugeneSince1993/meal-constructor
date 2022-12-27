@@ -1,4 +1,4 @@
-import { Breadcrumbs, Header } from "../../components";
+import { Breadcrumbs, EditPanel, Header } from "../../components";
 import { RecipeContent } from "./Content";
 import { RecipeMenu } from "./Menu";
 
@@ -10,6 +10,7 @@ export const Recipe = () => {
       <h2>Классический</h2>
       <RecipeMenu />
       <RecipeContent />
+      <EditPanel />
     </div>
   );
 };

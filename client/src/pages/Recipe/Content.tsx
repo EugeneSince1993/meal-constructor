@@ -2,7 +2,6 @@ import { Button } from '../../components';
 import { RecipeBlock } from './Block';
 import plusWhite from '../../assets/img/plus-white.svg';
 
-
 export const RecipeContent = () => {
   const ingredients_nachinka = [
     {

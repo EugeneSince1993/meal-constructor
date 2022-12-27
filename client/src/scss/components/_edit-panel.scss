@@ -1,0 +1,73 @@
+.edit-panel {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 24px;
+  background-color: $white-1;
+  box-shadow: 0 -4px 7px -3px rgb(214, 214, 214);
+  overflow-x: hidden;
+
+  .edit-panel__buttons {
+
+    .button {
+      background-color: $white-1;
+      border-color: $gray-4;
+
+      span {
+        color: $black-4;
+      }
+    }
+  }
+
+  .edit-panel__total {
+    display: flex;
+
+    .total__selected.selected {
+      display: flex;
+      align-items: center;
+      margin-right: 18px;
+
+      span {
+        display: block;
+
+        &.selected__text {
+          color: $gray-5;
+          margin-right: 5px;
+        }
+
+        &.selected__quantity {
+          color: $black-1;
+          font-weight: 600;
+        }
+      }
+    }
+
+    .total__vertical-dash {
+      display: flex;
+      align-items: center;
+      margin-right: 18px;
+    }
+
+    .total__weight.weight {
+      display: flex;
+      align-items: center;
+
+      span {
+        display: block;
+
+        &.weight__text {
+          color: $gray-5;
+          margin-right: 5px;
+        }
+
+        &.weight__quantity {
+          color: $black-1;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+}

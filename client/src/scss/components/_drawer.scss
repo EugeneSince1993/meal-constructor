@@ -73,7 +73,7 @@
     }
   }
 
-  img.collapse-button {
+  .collapse-button {
     width: 30px;
     position: absolute;
     top: 0;
@@ -82,5 +82,6 @@
     margin-top: auto;
     margin-bottom: auto;
     cursor: pointer;
+    z-index: 1;
   }
 }
