@@ -1,4 +1,4 @@
-import deleteButton from '../../assets/img/delete-button.svg';
+import deleteIcon from '../../assets/img/delete-icon.svg';
 import plusWhite from '../../assets/img/plus-white.svg';
 import plusRed from '../../assets/img/plus-red.svg';
 import { Button } from '../../components/Button';
@@ -9,7 +9,7 @@ export const RecipeBlock = () => {
     <div className="recipe-block">
       <div className="recipe-block__heading">
         <h4>Начинка</h4>
-        <img src={deleteButton} alt="delete" />
+        <img src={deleteIcon} alt="delete" />
       </div>
       <div className="recipe-block__buttons">
         <Button variant="outlined">
