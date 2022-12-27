@@ -1,14 +1,20 @@
+import { FC } from 'react';
+import { ITableIngredient } from '../../types';
 import deleteIcon from '../../assets/img/delete-icon.svg';
-import plusWhite from '../../assets/img/plus-white.svg';
 import plusRed from '../../assets/img/plus-red.svg';
 import { Button } from '../../components/Button';
 import { Table } from '../../components/Table';
 
-export const RecipeBlock = () => {
+interface IRecipeBlockProps {
+  name: string;
+  ingredients: Array<ITableIngredient>;
+}
+
+export const RecipeBlock: FC<IRecipeBlockProps> = ({ name, ingredients }) => {
   return (
     <div className="recipe-block">
       <div className="recipe-block__heading">
-        <h4>Начинка</h4>
+        <h4>{name}</h4>
         <img src={deleteIcon} alt="delete" />
       </div>
       <div className="recipe-block__buttons">
@@ -21,7 +27,7 @@ export const RecipeBlock = () => {
           <span>Группа</span>
         </Button>
       </div>
-      <Table />
+      <Table ingredients={ingredients} />
     </div>
   );
 };
