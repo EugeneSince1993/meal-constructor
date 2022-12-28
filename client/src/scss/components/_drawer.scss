@@ -4,6 +4,13 @@
   padding: 11px 15px;
   background-color: $light-gray-2;
   position: relative;
+  transform: translateX(0);
+  transition: transform 500ms ease-in-out;
+  z-index: 1;
+
+  &.drawer_closed {
+    transform: translateX(-150%);
+  }
 
   .label-img {
     display: flex;
@@ -26,16 +33,13 @@
   .menu {
     padding-top: 27px;
   }
+}
 
-  .collapse-button {
-    width: 30px;
-    position: absolute;
-    top: 0;
-    right: -15px;
-    bottom: 0;
-    margin-top: auto;
-    margin-bottom: auto;
-    cursor: pointer;
-    z-index: 1;
+@media screen and (min-width: 1400px) {
+  .drawer {
+  
+    &.drawer_closed {
+      transform: translateX(-250%);
+    }
   }
 }

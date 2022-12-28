@@ -10,4 +10,22 @@
     margin-left: 23px;
     margin-bottom: 16px;
   }
+
+  .collapse-button {
+    width: 30px;
+    position: absolute;
+    top: 0;
+    left: -15px;
+    bottom: 0;
+    margin-top: auto;
+    margin-bottom: auto;
+    cursor: pointer;
+    z-index: 1;
+    transition: transform 500ms ease-in-out, right 500ms ease-in-out;
+    user-select: none;
+
+    &.collapse-button_flipped {
+      transform: rotate(180deg);
+    }
+  }
 }

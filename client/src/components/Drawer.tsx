@@ -1,10 +1,19 @@
+import classNames from 'classnames';
+import { FC } from 'react';
 import burgersFactoryLabel from '../assets/img/burgers-factory-label-2.png';
-import collapse from '../assets/img/collapse.svg';
 import { Collapsible } from './Collapsible';
 
-export const Drawer = () => {
+interface IDrawerProps {
+  isDrawerClosed: boolean;
+}
+
+export const Drawer: FC<IDrawerProps> = ({ isDrawerClosed }) => {
+
   return (
-    <div className="drawer">
+    <div className={classNames({
+      "drawer": true,
+      "drawer_closed": isDrawerClosed
+    })}>
       <div className="label-img">
         <img src={burgersFactoryLabel} alt="burgers-factory-label" />
       </div>
@@ -86,7 +95,6 @@ export const Drawer = () => {
           </ul>
         </Collapsible>
       </div>
-      <img className="collapse-button" src={collapse} alt="collapse" />
     </div>
   );
 };

@@ -8,16 +8,17 @@
     padding-bottom: 4px;
     color: $black-2;
     cursor: pointer;
+    user-select: none;
 
     .dish-title__img {
       display: block;
       width: 19px;
       margin-right: 4px;
       margin-bottom: 3px;
-    }
 
-    .dish-title__img_upside-down {
-      transform: rotate(180deg);
+      &.dish-title__img_upside-down {
+        transform: rotate(180deg);
+      }
     }
 
     span {
