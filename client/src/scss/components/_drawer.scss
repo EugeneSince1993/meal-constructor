@@ -1,5 +1,6 @@
 .drawer {
   width: 240px;
+  height: 812px;
   padding: 11px 15px;
   background-color: $light-gray-2;
   position: relative;
@@ -24,53 +25,6 @@
 
   .menu {
     padding-top: 27px;
-
-    .dish {
-
-      .dish__title {
-        display: flex;
-        align-items: center;
-        padding-top: 4px;
-        padding-right: 12px;
-        padding-bottom: 4px;
-        color: $black-2;
-        cursor: pointer;
-
-        img {
-          display: block;
-          width: 19px;
-          margin-right: 4px;
-          margin-bottom: 3px;
-        }
-
-        span {
-          display: block;
-          font-weight: 600;
-        }
-      }
-
-      ul.dish-variants {
-        margin-top: 3px;
-        margin-bottom: 3px;
-
-        li.dish-variants__item {
-          padding-top: 4px;
-          padding-right: 12px;
-          padding-bottom: 4px;
-          padding-left: 44px;
-          border-radius: 6px;
-
-          &.dish-variants__item_active {
-            background-color: $gray-1;
-          }
-
-          a {
-            color: $black-2;
-            text-decoration: none;
-          }
-        }
-      }
-    }
   }
 
   .collapse-button {

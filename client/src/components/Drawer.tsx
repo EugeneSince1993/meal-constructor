@@ -1,6 +1,6 @@
 import burgersFactoryLabel from '../assets/img/burgers-factory-label-2.png';
-import chevronDownActive from '../assets/img/chevron-down-active.svg';
 import collapse from '../assets/img/collapse.svg';
+import { Collapsible } from './Collapsible';
 
 export const Drawer = () => {
   return (
@@ -13,11 +13,7 @@ export const Drawer = () => {
         в “Фабрику бургеров”
       </div>
       <div className="menu">
-        <div className="dish">
-          <div className="dish__title">
-            <img src={chevronDownActive} alt="chevron-down" />
-            <span>Сендвичи</span>
-          </div>
+        <Collapsible title="Сендвичи">
           <ul className="dish-variants">
             <li className="dish-variants__item dish-variants__item_active">
               <a href="#">
@@ -40,12 +36,8 @@ export const Drawer = () => {
               </a>
             </li>
           </ul>
-        </div>
-        <div className="dish">
-          <div className="dish__title">
-            <img src={chevronDownActive} alt="chevron-down" />
-            <span>Бургеры</span>
-          </div>
+        </Collapsible>
+        <Collapsible title="Бургеры">
           <ul className="dish-variants">
             <li className="dish-variants__item">
               <a href="#">
@@ -68,12 +60,8 @@ export const Drawer = () => {
               </a>
             </li>
           </ul>
-        </div>
-        <div className="dish">
-          <div className="dish__title">
-            <img src={chevronDownActive} alt="chevron-down" />
-            <span>Багет</span>
-          </div>
+        </Collapsible>
+        <Collapsible title="Багет">
           <ul className="dish-variants">
             <li className="dish-variants__item">
               <a href="#">
@@ -96,7 +84,7 @@ export const Drawer = () => {
               </a>
             </li>
           </ul>
-        </div>
+        </Collapsible>
       </div>
       <img className="collapse-button" src={collapse} alt="collapse" />
     </div>
