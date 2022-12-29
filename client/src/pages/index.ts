@@ -1,5 +1,10 @@
 export { BurgerConstructor } from "./BurgerConstructor";
+export { Recipes } from "./Recipes";
+export { Pricelist } from "./Pricelist";
+export { Combosets } from "./Combosets";
 export { Recipe } from "./Recipe";
 export { RecipeBlock } from "./Recipe/Block";
 export { RecipeContent } from "./Recipe/Content";
 export { RecipeMenu } from "./Recipe/Menu";
+export { CookingTime } from "./Recipe/CookingTime";
+export { Serving } from "./Recipe/Serving";

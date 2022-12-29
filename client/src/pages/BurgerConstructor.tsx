@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { Drawer } from '../components';
-import { Recipe } from './Recipe';
+import { Drawer, Main } from '../components';
 
 export const BurgerConstructor = () => {
   const [isDrawerClosed, setIsDrawerClosed] = useState(false);
@@ -12,7 +11,7 @@ export const BurgerConstructor = () => {
   return (
     <div className="burger-constructor">
       <Drawer isDrawerClosed={isDrawerClosed} />
-      <Recipe isDrawerClosed={isDrawerClosed} toggleDrawer={toggleDrawer} />
+      <Main isDrawerClosed={isDrawerClosed} toggleDrawer={toggleDrawer} />
     </div>
   )
 };

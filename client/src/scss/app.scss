@@ -14,11 +14,15 @@
 @import './components/_table';
 @import './components/_edit-panel';
 @import './components/_collapsible';
+@import './components/_main';
 
 @import './pages/_burger-constructor';
+@import './pages/_recipes';
 @import './pages/recipe/_index';
 @import './pages/recipe/_block';
 @import './pages/recipe/_content';
 @import './pages/recipe/_menu';
+@import './pages/_pricelist';
+@import './pages/_combosets';
 
 @import './_custom';
