@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { FC } from "react";
 import { Route, Routes } from "react-router-dom";
-import { Combosets, CookingTime, Pricelist, Recipe, RecipeMenu, Recipes, Serving } from "../pages";
+import { Combosets, CookingTime, Pricelist, Recipe, RecipeContainer, Recipes, Serving } from "../pages";
 import { Breadcrumbs } from "./Breadcrumbs";
 import { Header } from "./Header";
 import collapse from "../assets/img/collapse.svg";
@@ -12,12 +12,6 @@ interface IMainProps {
 }
 
 export const Main: FC<IMainProps> = ({ isDrawerClosed, toggleDrawer }) => {
-  const recipeNameAndMenu = (
-    <>
-      <h2>Классический</h2>
-      <RecipeMenu />    
-    </>
-  );
 
   return (
     <div className="main">
@@ -30,29 +24,15 @@ export const Main: FC<IMainProps> = ({ isDrawerClosed, toggleDrawer }) => {
         />
         <Route 
           path="/recipes/recipe" 
-          element={
-            <>
-              {recipeNameAndMenu}
-              <Recipe />
-            </>
-          }
+          element={<RecipeContainer recipeName="Классический" component={<Recipe />} />}
         />
-        <Route path="/recipes/cooking-time" 
-          element={
-            <>
-              {recipeNameAndMenu}
-              <CookingTime />
-            </>
-          }
+        <Route 
+          path="/recipes/cooking-time" 
+          element={<RecipeContainer recipeName="Классический" component={<CookingTime />} />}
         />
         <Route 
           path="/recipes/serving" 
-          element={
-            <>
-              {recipeNameAndMenu}
-              <Serving />
-            </>
-          }
+          element={<RecipeContainer recipeName="Классический" component={<Serving />} />}
         />
         <Route path="/pricelist" element={<Pricelist />} />
         <Route path="/combosets" element={<Combosets />} />
