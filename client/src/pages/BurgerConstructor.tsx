@@ -2,16 +2,16 @@ import { useState } from 'react';
 import { Drawer, Main } from '../components';
 
 export const BurgerConstructor = () => {
-  const [isDrawerClosed, setIsDrawerClosed] = useState(false);
+  const [isDrawerPutAway, setIsDrawerPutAway] = useState(false);
 
   const toggleDrawer = () => {
-    setIsDrawerClosed(!isDrawerClosed);
+    setIsDrawerPutAway(!isDrawerPutAway);
   };
 
   return (
     <div className="burger-constructor">
-      <Drawer isDrawerClosed={isDrawerClosed} />
-      <Main isDrawerClosed={isDrawerClosed} toggleDrawer={toggleDrawer} />
+      <Drawer isDrawerPutAway={isDrawerPutAway} />
+      <Main isDrawerPutAway={isDrawerPutAway} toggleDrawer={toggleDrawer} />
     </div>
   )
 };

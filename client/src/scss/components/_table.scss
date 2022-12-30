@@ -93,6 +93,7 @@
       display: flex;
       padding-top: 10px;
       padding-bottom: 10px;
+      position: relative;
 
       .table-row__drag-block {
         display: flex;
@@ -128,10 +129,17 @@
       }
 
       .table-row__annotation {
-        width: 240px;
+        width: 29%;
       }
 
       .table-row__delete-button {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        margin-top: auto;
+        margin-bottom: auto;
+        right: 7px;
+        width: 20px;
         display: flex;
         align-items: center;
         cursor: pointer;

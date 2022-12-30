@@ -4,15 +4,15 @@ import burgersFactoryLabel from '../assets/img/burgers-factory-label-2.png';
 import { Collapsible } from './Collapsible';
 
 interface IDrawerProps {
-  isDrawerClosed: boolean;
+  isDrawerPutAway: boolean;
 }
 
-export const Drawer: FC<IDrawerProps> = ({ isDrawerClosed }) => {
+export const Drawer: FC<IDrawerProps> = ({ isDrawerPutAway }) => {
 
   return (
     <div className={classNames({
       "drawer": true,
-      "drawer_closed": isDrawerClosed
+      "drawer_put_away": isDrawerPutAway
     })}>
       <div className="label-img">
         <img src={burgersFactoryLabel} alt="burgers-factory-label" />

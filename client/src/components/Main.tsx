@@ -1,20 +1,26 @@
-import classNames from "classnames";
 import { FC } from "react";
+import classNames from "classnames";
 import { Route, Routes } from "react-router-dom";
 import { Combosets, CookingTime, Pricelist, Recipe, RecipeContainer, Recipes, Serving } from "../pages";
 import { Breadcrumbs } from "./Breadcrumbs";
 import { Header } from "./Header";
+import { EditPanel } from "./EditPanel";
 import collapse from "../assets/img/collapse.svg";
 
 interface IMainProps {
-  isDrawerClosed: boolean;
+  isDrawerPutAway: boolean;
   toggleDrawer: () => void;
 }
 
-export const Main: FC<IMainProps> = ({ isDrawerClosed, toggleDrawer }) => {
+export const Main: FC<IMainProps> = ({ isDrawerPutAway, toggleDrawer }) => {
 
   return (
-    <div className="main">
+    <div 
+      className={classNames({
+        "main": true,
+        "offsetted": !isDrawerPutAway
+      })}
+    >
       <Header />
       <Breadcrumbs />
       <Routes>
@@ -37,10 +43,11 @@ export const Main: FC<IMainProps> = ({ isDrawerClosed, toggleDrawer }) => {
         <Route path="/pricelist" element={<Pricelist />} />
         <Route path="/combosets" element={<Combosets />} />
       </Routes>
+      <EditPanel />
       <img 
         className={classNames({
           "collapse-button": true,
-          "collapse-button_flipped": isDrawerClosed
+          "collapse-button_flipped": isDrawerPutAway
         })}
         src={collapse} 
         alt="collapse" 

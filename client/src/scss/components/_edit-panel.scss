@@ -1,7 +1,6 @@
 .edit-panel {
-  position: absolute;
-  width: 100%;
-  left: 0;
+  position: -webkit-sticky;
+  position: sticky;
   bottom: 0;
   display: flex;
   justify-content: space-between;
@@ -9,6 +8,7 @@
   background-color: $white-1;
   box-shadow: 0 -4px 7px -3px rgb(214, 214, 214);
   overflow-x: hidden;
+  z-index: 2;
 
   .edit-panel__buttons {
 
