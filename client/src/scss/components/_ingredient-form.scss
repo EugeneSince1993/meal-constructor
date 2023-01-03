@@ -1,0 +1,59 @@
+.table {
+
+  .table-body__row.table-row.ingredient.ingredient-form {
+    align-items: center;
+
+    &.hide {
+      display: none;
+    }
+
+    .checkbox-container .checkbox-container__input {
+      position: static;
+    }
+
+    .table-row__title {
+      width: 390px;
+      padding-right: 15px;
+
+      input {
+        width: 90%;
+      }
+    }
+
+    .table-row__weight {
+      width: 38px;
+      margin-right: 15px;
+    }
+
+    .table-row__kcal {
+      width: 50px;
+      margin-right: 15px;
+    }
+
+    .table-row__annotation {
+      width: 29%;
+      margin-right: 15px;
+    }
+  
+    input {
+      display: inline-block;
+      width: 100%;
+      line-height: 24px;
+    }
+  
+    .table-row__annotation {
+      width: auto;
+    }
+
+    .table-row__buttons {
+      
+      .button.button_solid {
+
+        .button__inner {
+          color: $white-1;
+        }
+      }
+    }
+  }
+}
+

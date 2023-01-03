@@ -1,13 +1,27 @@
 import { FC } from 'react';
-import dragIcon from '../assets/img/drag.svg';
-import deleteIcon from '../assets/img/delete-icon.svg';
-import { ITableIngredient } from '../types';
+import { ArrTableIngredient, ITableIngredient } from '../types';
+import { IngredientForm } from './IngredientForm';
+import { TableRow } from './TableRow';
 
 interface ITableProps {
-  ingredients: Array<ITableIngredient>;
+  recipeBlock: ArrTableIngredient;
+  setRecipeBlock: (param: any) => void;
+  editingEnabled: boolean;
+  setEditingEnabled: (param: any) => void;
 }
 
-export const Table: FC<ITableProps> = ({ ingredients }) => {
+export const Table: FC<ITableProps> = ({ 
+  recipeBlock, 
+  setRecipeBlock, 
+  editingEnabled, 
+  setEditingEnabled 
+}) => {
+  const deleteIngredient = (index: number) => {
+    setRecipeBlock(recipeBlock.filter((el: ITableIngredient, idx: number) => {
+      return idx !== index;
+    }));
+  };
+
   return (
     <div className="table">
       <div className="table__header table-header">
@@ -24,30 +38,24 @@ export const Table: FC<ITableProps> = ({ ingredients }) => {
         <div className="table-header__annotation">Примечание</div>
       </div>
       <div className="table__body table-body">
-        {
-          ingredients.map((ingredient, index) => {
-            return (
-              <div className="table-body__row table-row ingredient" key={index}>
-                <div className="table-row__drag-block">
-                  <img src={dragIcon} alt="drag-icon" />
-                </div>
-                <div className="table-row__checkbox">
-                  <label className="checkbox-container">
-                    <input type="checkbox" className="checkbox-container__input" />
-                    <span className="checkbox-container__checkmark"></span>
-                  </label>
-                </div>
-                <div className="table-row__title">{ingredient.name}</div>
-                <div className="table-row__weight">{ingredient.weight}</div>
-                <div className="table-row__kcal">{ingredient.kcal}</div>
-                <div className="table-row__annotation">{ingredient.annotation}</div>
-                <div className="table-row__delete-button">
-                  <img src={deleteIcon} alt="delete-icon" />
-                </div>
-              </div>
-            );
-          })
-        }
+        {recipeBlock.map((ingredient, index) => {
+          return (
+            <TableRow 
+              ingredient={ingredient} 
+              deleteIngredient={deleteIngredient}
+              index={index}
+              key={index}
+              setRecipeBlock={setRecipeBlock}
+              recipeBlock={recipeBlock}
+            />
+          );
+        })}
+        <IngredientForm 
+          setEditingEnabled={setEditingEnabled}
+          editingEnabled={editingEnabled}
+          recipeBlock={recipeBlock}
+          setRecipeBlock={setRecipeBlock}
+        />
       </div>
     </div>
   );

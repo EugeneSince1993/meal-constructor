@@ -6,3 +6,5 @@ export { Button } from './Button';
 export { EditPanel } from './EditPanel';
 export { Collapsible } from './Collapsible';
 export { Main } from './Main';
+export { IngredientForm } from './IngredientForm';
+export { TableRow } from './TableRow';

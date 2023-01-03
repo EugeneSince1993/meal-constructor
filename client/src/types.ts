@@ -1,6 +1,8 @@
 export interface ITableIngredient {
   name: string;
-  weight: number;
-  kcal: number;
+  weight: string;
+  kcal: string;
   annotation: string;
 }
+
+export type ArrTableIngredient = ITableIngredient[];
