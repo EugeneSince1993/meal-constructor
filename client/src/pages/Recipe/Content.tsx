@@ -7,28 +7,32 @@ import { ArrTableIngredient } from '../../types';
 export const RecipeContent = () => {
   const ingredients_nachinka = [
     {
+      id: 0,
       name: 'Соус',
       weight: "12",
       kcal: "130",
-      annotation: 'без примечания'
+      annotation: 'без примечания',
     },
     {
+      id: 1,
       name: 'Салатный лист',
       weight: "12",
       kcal: "130",
-      annotation: 'айсберг'
+      annotation: 'айсберг',
     },
     {
+      id: 3,
       name: 'Помидор',
       weight: "12",
       kcal: "130",
-      annotation: 'без примечания'
+      annotation: 'без примечания',
     },
     {
+      id: 4,
       name: 'Котлета',
       weight: "12",
       kcal: "130",
-      annotation: 'текст'
+      annotation: 'текст',
     }
   ];
   

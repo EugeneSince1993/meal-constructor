@@ -1,5 +1,5 @@
 import { FC, useState } from 'react';
-import { ArrTableIngredient, ITableIngredient } from '../../types';
+import { ArrTableIngredient } from '../../types';
 import deleteIcon from '../../assets/img/delete-icon.svg';
 import plusRed from '../../assets/img/plus-red.svg';
 import { Button } from '../../components/Button';

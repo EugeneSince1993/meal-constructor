@@ -4,6 +4,11 @@
   padding-bottom: 10px;
   position: relative;
 
+  // width: 500px;
+  // // background-color: yellow;
+  // margin-bottom: 30px;
+  // cursor: pointer;
+
   .table-row__drag-block {
     display: flex;
     align-items: center;
@@ -25,6 +30,10 @@
 
   .table-row__title.table-row-title {
     width: 390px;
+
+    input {
+      width: 80%;
+    }
   }
 
   .table-row__weight.table-row-weight {
@@ -81,7 +90,7 @@
 
   input {
     display: inline-block;
-    width: 100%;
+    width: 90%;
   }
 
   .hidden {

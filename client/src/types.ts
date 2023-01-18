@@ -1,4 +1,5 @@
 export interface ITableIngredient {
+  id: number;
   name: string;
   weight: string;
   kcal: string;
