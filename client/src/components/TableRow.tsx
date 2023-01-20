@@ -1,10 +1,8 @@
 import { FC, useState, ChangeEvent, useRef, useEffect } from 'react';
 import classNames from 'classnames';
-import { useDrag, useDrop } from 'react-dnd';
 import dragIcon from '../assets/img/drag.svg';
 import deleteIcon from '../assets/img/delete-icon.svg';
 import { ArrTableIngredient, ITableIngredient } from '../types';
-import { ItemTypes } from '../utils/ItemTypes';
 
 interface ITableRowProps {
   ingredient: ITableIngredient;
@@ -12,8 +10,7 @@ interface ITableRowProps {
   index: number;
   recipeBlock: ArrTableIngredient;
   setRecipeBlock: (param: any) => void;
-  id: number;
-  moveCard: (dragIndex: number, hoverIndex: number) => void;
+  dragHandle: any;
 }
 
 export const TableRow: FC<ITableRowProps> = ({
@@ -22,8 +19,7 @@ export const TableRow: FC<ITableRowProps> = ({
   index,
   recipeBlock,
   setRecipeBlock,
-  id,
-  moveCard
+  dragHandle
 }) => {
   const [name, setName] = useState<string>(recipeBlock[index].name);
   const [weight, setWeight] = useState<string>(recipeBlock[index].weight);
@@ -101,60 +97,9 @@ export const TableRow: FC<ITableRowProps> = ({
     setAnnotation(recipeBlock[index].annotation);
   }, [recipeBlock]);
 
-  // Drag and drop
-  
-  const dragRef = useRef<HTMLImageElement>(null);
-  const previewRef = useRef<HTMLDivElement>(null);
-
-  const [{ handlerId }, drop] = useDrop({
-    accept: ItemTypes.INGREDIENT,
-    collect(monitor) {
-      return {
-        handlerId: monitor.getHandlerId(),
-      }
-    },
-    hover(item: any, monitor: any) {
-      if (!previewRef.current) {
-        return;
-      }
-      const dragIndex = item.index;
-      const hoverIndex = index;
-      if (dragIndex === hoverIndex) {
-        return;
-      }
-      const hoverBoundingRect = previewRef.current?.getBoundingClientRect();
-      const hoverMiddleY =
-        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-      const clientOffset = monitor.getClientOffset();
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-        return;
-      }
-      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-        return;
-      }
-      moveCard(dragIndex, hoverIndex);
-      item.index = hoverIndex;
-    },
-  });
-
-  const [{ isDragging }, drag, preview] = useDrag({
-    type: ItemTypes.INGREDIENT,
-    item: () => {
-      return { id, index };
-    },
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
-  })
-  drag(dragRef);
-  drop(preview(previewRef));
-
   return (
     <div 
       className="table-body__row table-row ingredient"
-      ref={previewRef}
-      data-handler-id={handlerId}
     >
       <div 
         className="table-row__drag-block"
@@ -162,7 +107,7 @@ export const TableRow: FC<ITableRowProps> = ({
         <img 
           src={dragIcon} 
           alt="drag-icon" 
-          ref={dragRef}
+          {...dragHandle}
         />
       </div>
       <div 
