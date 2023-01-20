@@ -30,7 +30,12 @@ export const Main: FC<IMainProps> = ({ isDrawerPutAway, toggleDrawer }) => {
         />
         <Route 
           path="/recipes/recipe" 
-          element={<RecipeContainer recipeName="Классический" component={<Recipe />} />}
+          element={
+            <RecipeContainer 
+              recipeName="Классический" 
+              component={<Recipe isDrawerPutAway={isDrawerPutAway} />} 
+            />
+          }
         />
         <Route 
           path="/recipes/cooking-time" 

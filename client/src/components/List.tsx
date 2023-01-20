@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { reorder } from '../utils/helpers';
 import { Drop } from './Drop';
@@ -9,12 +9,14 @@ interface IListProps {
   recipeBlock: ArrTableIngredient;
   setRecipeBlock: (param: ArrTableIngredient) => void;
   deleteIngredient: (index: number) => void;
+  isDrawerPutAway: boolean;
 }
 
 export const List: FC<IListProps> = ({
   recipeBlock,
   setRecipeBlock,
-  deleteIngredient
+  deleteIngredient,
+  isDrawerPutAway
 }) => {
   const handleDragEnd = (result: any) => {
     const { source, destination } = result;
@@ -28,7 +30,7 @@ export const List: FC<IListProps> = ({
   };
 
   return (
-    <DragDropContext onDragEnd={handleDragEnd}>
+    <DragDropContext onDragEnd={handleDragEnd} >
       <Drop id="droppable-id">
         {recipeBlock.map((ingredient, index) => {
           return (
@@ -40,6 +42,7 @@ export const List: FC<IListProps> = ({
               deleteIngredient={deleteIngredient}
               setRecipeBlock={setRecipeBlock}
               recipeBlock={recipeBlock}
+              isDrawerPutAway={isDrawerPutAway}
             />
           );
         })}

@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import classNames from 'classnames';
 import { Draggable } from 'react-beautiful-dnd';
 import { ArrTableIngredient, ITableIngredient } from '../types';
 import { TableRow } from './TableRow';
@@ -10,6 +11,7 @@ interface IDragProps {
   deleteIngredient: (index: number) => void;
   recipeBlock: ArrTableIngredient;
   setRecipeBlock: (param: any) => void;
+  isDrawerPutAway: boolean;
 }
 
 export const Drag: FC<IDragProps> = ({ 
@@ -18,16 +20,22 @@ export const Drag: FC<IDragProps> = ({
   ingredient,
   deleteIngredient,
   recipeBlock,
-  setRecipeBlock
+  setRecipeBlock,
+  isDrawerPutAway
 }) => {
+
   return (
     <Draggable draggableId={id} index={index}>
       {(provided, snapshot) => {
         return (
           <div 
             ref={provided.innerRef} 
-            className={snapshot.isDragging ? "draggable dragging" : "draggable"}
-            {...provided.draggableProps} 
+            className={classNames({
+              "draggable dragging": snapshot.isDragging,
+              "draggable": !snapshot.isDragging,
+              "draggable_justified": snapshot.isDragging
+            })}
+            {...provided.draggableProps}
           >
             <TableRow 
               key={ingredient.id}

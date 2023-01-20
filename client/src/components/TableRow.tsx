@@ -99,7 +99,12 @@ export const TableRow: FC<ITableRowProps> = ({
 
   return (
     <div 
-      className="table-body__row table-row ingredient"
+      className={
+        classNames({
+          "table-body__row table-row ingredient": true,
+        })
+      }
+      {...dragHandle}
     >
       <div 
         className="table-row__drag-block"
@@ -107,7 +112,6 @@ export const TableRow: FC<ITableRowProps> = ({
         <img 
           src={dragIcon} 
           alt="drag-icon" 
-          {...dragHandle}
         />
       </div>
       <div 

@@ -9,10 +9,14 @@ interface IRecipeBlockProps {
   name: string;
   recipeBlock: ArrTableIngredient;
   setRecipeBlock: (param: any) => void;
+  isDrawerPutAway: boolean;
 }
 
 export const RecipeBlock: FC<IRecipeBlockProps> = ({ 
-  name, recipeBlock, setRecipeBlock 
+  name, 
+  recipeBlock, 
+  setRecipeBlock,
+  isDrawerPutAway
 }) => {
   const [editingEnabled, setEditingEnabled] = useState<boolean>(false);
 
@@ -37,6 +41,7 @@ export const RecipeBlock: FC<IRecipeBlockProps> = ({
         setRecipeBlock={setRecipeBlock} 
         editingEnabled={editingEnabled}
         setEditingEnabled={setEditingEnabled}
+        isDrawerPutAway={isDrawerPutAway}
       />
     </div>
   );

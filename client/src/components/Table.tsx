@@ -8,13 +8,15 @@ interface ITableProps {
   setRecipeBlock: (param: any) => void;
   editingEnabled: boolean;
   setEditingEnabled: (param: any) => void;
+  isDrawerPutAway: boolean;
 }
 
 export const Table: FC<ITableProps> = ({ 
   recipeBlock, 
   setRecipeBlock, 
   editingEnabled, 
-  setEditingEnabled 
+  setEditingEnabled,
+  isDrawerPutAway
 }) => {
   const deleteIngredient = (index: number) => {
     setRecipeBlock(recipeBlock.filter((el: ITableIngredient, idx: number) => {
@@ -42,6 +44,7 @@ export const Table: FC<ITableProps> = ({
           recipeBlock={recipeBlock}
           setRecipeBlock={setRecipeBlock}
           deleteIngredient={deleteIngredient}
+          isDrawerPutAway={isDrawerPutAway}
         />
         <IngredientForm 
           setEditingEnabled={setEditingEnabled}

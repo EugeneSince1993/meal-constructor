@@ -1,10 +1,14 @@
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import { Button } from '../../components';
 import { RecipeBlock } from './Block';
 import plusWhite from '../../assets/img/plus-white.svg';
 import { ArrTableIngredient } from '../../types';
 
-export const RecipeContent = () => {
+interface IRecipeContentProps {
+  isDrawerPutAway: boolean;
+}
+
+export const RecipeContent: FC<IRecipeContentProps> = ({ isDrawerPutAway }) => {
   const ingredients_nachinka = [
     {
       id: 0,
@@ -59,6 +63,7 @@ export const RecipeContent = () => {
         name="Начинка" 
         recipeBlock={recipeBlock} 
         setRecipeBlock={setRecipeBlock}
+        isDrawerPutAway={isDrawerPutAway}
       />
       {/* <RecipeBlock name="Основа" ingredients={ingredients_osnova} /> */}
       <Button>

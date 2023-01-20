@@ -1,10 +1,14 @@
 import { FC } from "react";
 import { RecipeContent } from "./Content";
 
-export const Recipe: FC = () => {
+interface IRecipeProps {
+  isDrawerPutAway: boolean;
+}
+
+export const Recipe: FC<IRecipeProps> = ({ isDrawerPutAway }) => {
   return (
     <div className="recipe">
-      <RecipeContent />
+      <RecipeContent isDrawerPutAway={isDrawerPutAway} />
     </div>
   );
 };

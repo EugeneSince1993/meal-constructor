@@ -45,9 +45,9 @@ export const IngredientForm: FC<IIngredientFormProps> = ({
     }
   };
 
-  useEffect(() => {
-    console.log(recipeBlock);
-  }, [recipeBlock]);
+  // useEffect(() => {
+  //   console.log(recipeBlock);
+  // }, [recipeBlock]);
 
   useEffect(() => {
     setName("");
