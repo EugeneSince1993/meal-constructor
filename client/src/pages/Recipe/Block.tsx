@@ -1,25 +1,28 @@
 import { FC, useState } from 'react';
-import { ArrTableIngredient } from '../../types';
+import { IRecipeBlock, RecipeBlocksArr } from '../../types';
 import deleteIcon from '../../assets/img/delete-icon.svg';
 import plusRed from '../../assets/img/plus-red.svg';
 import { Button } from '../../components/Button';
 import { Table } from '../../components/Table';
 
 interface IRecipeBlockProps {
-  name: string;
-  recipeBlock: ArrTableIngredient;
-  setRecipeBlock: (param: any) => void;
+  recBlock: IRecipeBlock;
+  recipeBlocks: RecipeBlocksArr;
+  setRecipeBlocks: (recipeBlocks: RecipeBlocksArr) => void;
 }
 
 export const RecipeBlock: FC<IRecipeBlockProps> = ({ 
-  name, recipeBlock, setRecipeBlock 
-}) => {
+  recBlock,
+  recipeBlocks,
+  setRecipeBlocks
+ }) => {
+  const [recipeBlock, setRecipeBlock] = useState<IRecipeBlock>(recBlock);
   const [editingEnabled, setEditingEnabled] = useState<boolean>(false);
 
   return (
     <div className="recipe-block">
       <div className="recipe-block__heading">
-        <h4>{name}</h4>
+        <h4>{recipeBlock.name}</h4>
         <img src={deleteIcon} alt="delete" />
       </div>
       <div className="recipe-block__buttons">
@@ -35,6 +38,8 @@ export const RecipeBlock: FC<IRecipeBlockProps> = ({
       <Table 
         recipeBlock={recipeBlock} 
         setRecipeBlock={setRecipeBlock} 
+        recipeBlocks={recipeBlocks}
+        setRecipeBlocks={setRecipeBlocks}
         editingEnabled={editingEnabled}
         setEditingEnabled={setEditingEnabled}
       />

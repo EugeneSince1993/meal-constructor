@@ -3,32 +3,36 @@ import classNames from 'classnames';
 import { useDrag, useDrop } from 'react-dnd';
 import dragIcon from '../assets/img/drag.svg';
 import deleteIcon from '../assets/img/delete-icon.svg';
-import { ArrTableIngredient, ITableIngredient } from '../types';
+import { ArrTableIngredient, Group, Ingredient, IRecipeBlock, ITableIngredient, RecipeBlocksArr } from '../types';
 import { ItemTypes } from '../utils/ItemTypes';
 
 interface ITableRowProps {
-  ingredient: ITableIngredient;
+  item: Ingredient | Group;
   deleteIngredient: (index: number) => void;
   index: number;
-  recipeBlock: ArrTableIngredient;
-  setRecipeBlock: (param: any) => void;
   id: number;
-  moveCard: (dragIndex: number, hoverIndex: number) => void;
+  recipeBlock: IRecipeBlock;
+  setRecipeBlock: (recipeBlock: IRecipeBlock) => void;
+  recipeBlocks: RecipeBlocksArr;
+  setRecipeBlocks: (recipeBlocks: RecipeBlocksArr) => void;
+  moveItem: (dragIndex: number, hoverIndex: number) => void;
 }
 
 export const TableRow: FC<ITableRowProps> = ({
-  ingredient,
+  item,
   deleteIngredient,
   index,
+  id,
   recipeBlock,
   setRecipeBlock,
-  id,
-  moveCard
+  recipeBlocks,
+  setRecipeBlocks,
+  moveItem
 }) => {
-  const [name, setName] = useState<string>(recipeBlock[index].name);
-  const [weight, setWeight] = useState<string>(recipeBlock[index].weight);
-  const [kcal, setKcal] = useState<string>(recipeBlock[index].kcal);
-  const [annotation, setAnnotation] = useState<string>(recipeBlock[index].annotation);
+  const [name, setName] = useState<string>(recipeBlock.items[index].name);
+  const [weight, setWeight] = useState<string | null>(recipeBlock.items[index].weight);
+  const [kcal, setKcal] = useState<string | null>(recipeBlock.items[index].kcal);
+  const [annotation, setAnnotation] = useState<string | null>(recipeBlock.items[index].annotation);
   const [titleInputShown, setTitleInputShown] = useState<boolean>(false);
   const [weightInputShown, setWeightInputShown] = useState<boolean>(false);
   const [kcalInputShown, setKcalInputShown] = useState<boolean>(false);
@@ -57,10 +61,21 @@ export const TableRow: FC<ITableRowProps> = ({
   };
 
   const updateInput = (index: number, propName: string, propValue: string) => {
-    const arr = [...recipeBlock];
-    const obj: any = arr[index];
-    obj[propName] = propValue;
-    setRecipeBlock(arr);
+    const recBlockObj: IRecipeBlock = recipeBlock;
+
+    let itemObj: Ingredient | Group = recipeBlock.items[index];
+
+    itemObj[propName]: string | number = propValue;
+
+    // stopped here
+
+    // const arr = [...recipeBlock.items];
+    // const obj: any = arr[index];
+    // obj[propName] = propValue;
+    setRecipeBlock((prevState: IRecipeBlock) => ({
+      ...prevState,
+      // items[index][propName]: propValue
+    });
     switch (propName) {
       case "name":
         setTitleInputShown(false);
