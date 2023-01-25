@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { useDrag, useDrop } from 'react-dnd';
 import dragIcon from '../assets/img/drag.svg';
 import deleteIcon from '../assets/img/delete-icon.svg';
-import { ArrTableIngredient, Group, Ingredient, IRecipeBlock, ITableIngredient, RecipeBlocksArr } from '../types';
+import { Group, Ingredient, IRecipeBlock, RecipeBlocksArr } from '../types';
 import { ItemTypes } from '../utils/ItemTypes';
 
 interface ITableRowProps {
@@ -60,22 +60,22 @@ export const TableRow: FC<ITableRowProps> = ({
     }
   };
 
-  const updateInput = (index: number, propName: string, propValue: string) => {
-    const recBlockObj: IRecipeBlock = recipeBlock;
+  const updateInput = (index: number, propName: string, propValue: string | null) => {
+    // const recBlockObj: IRecipeBlock = recipeBlock;
+    // let itemObj: Ingredient | Group = recipeBlock.items[index];
+    // itemObj[propName] = propValue;
 
-    let itemObj: Ingredient | Group = recipeBlock.items[index];
+    const arr = [...recipeBlock.items];
+    const obj: any = arr[index];
+    obj[propName] = propValue;
 
-    itemObj[propName]: string | number = propValue;
+    const newRecBl = {
+      ...recipeBlock,
+      items: arr
+    }
 
-    // stopped here
+    setRecipeBlock(newRecBl);
 
-    // const arr = [...recipeBlock.items];
-    // const obj: any = arr[index];
-    // obj[propName] = propValue;
-    setRecipeBlock((prevState: IRecipeBlock) => ({
-      ...prevState,
-      // items[index][propName]: propValue
-    });
     switch (propName) {
       case "name":
         setTitleInputShown(false);
@@ -110,10 +110,15 @@ export const TableRow: FC<ITableRowProps> = ({
   }, [titleInputShown, weightInputShown, kcalInputShown, annotationInputShown]);
 
   useEffect(() => {
-    setName(recipeBlock[index].name);
-    setWeight(recipeBlock[index].weight);
-    setKcal(recipeBlock[index].kcal);
-    setAnnotation(recipeBlock[index].annotation);
+    setName(recipeBlock.items[index].name);
+    setWeight(recipeBlock.items[index].weight);
+    setKcal(recipeBlock.items[index].kcal);
+    setAnnotation(recipeBlock.items[index].annotation);
+  }, [recipeBlock]);
+
+  useEffect(() => {
+    const recBlocksArr = recipeBlocks;
+    setRecipeBlocks(recBlocksArr);
   }, [recipeBlock]);
 
   // Drag and drop
@@ -148,7 +153,7 @@ export const TableRow: FC<ITableRowProps> = ({
       if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
         return;
       }
-      moveCard(dragIndex, hoverIndex);
+      moveItem(dragIndex, hoverIndex);
       item.index = hoverIndex;
     },
   });
@@ -197,7 +202,7 @@ export const TableRow: FC<ITableRowProps> = ({
           })}
           onClick={handleInfoClick}
         >
-          {ingredient.name}
+          {item.name}
         </div>
         <div 
           className={classNames("table-row-title__input", {
@@ -224,7 +229,7 @@ export const TableRow: FC<ITableRowProps> = ({
           })}
           onClick={handleInfoClick}
         >
-          {ingredient.weight}
+          {item.weight}
         </div>
         <div 
           className={classNames("table-row-weight__input", {
@@ -233,7 +238,7 @@ export const TableRow: FC<ITableRowProps> = ({
         >
           <input 
             type="text" 
-            value={weight}
+            value={weight ? weight : ''}
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
               setWeight(e.target.value);
             }}
@@ -251,7 +256,7 @@ export const TableRow: FC<ITableRowProps> = ({
           })}
           onClick={handleInfoClick}
         >
-          {ingredient.kcal}
+          {item.kcal}
         </div>
         <div 
           className={classNames("table-row-kcal__input", {
@@ -260,7 +265,7 @@ export const TableRow: FC<ITableRowProps> = ({
         >
           <input 
             type="text" 
-            value={kcal}
+            value={kcal ? kcal : ''}
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
               setKcal(e.target.value);
             }}
@@ -278,7 +283,7 @@ export const TableRow: FC<ITableRowProps> = ({
           })}
           onClick={handleInfoClick}
         >
-          {ingredient.annotation}
+          {item.annotation}
         </div>
         <div 
           className={classNames("table-row-annotation-input", {
@@ -287,7 +292,7 @@ export const TableRow: FC<ITableRowProps> = ({
         >
           <input 
             type="text" 
-            value={annotation}
+            value={annotation ? annotation : ''}
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
               setAnnotation(e.target.value);
             }}

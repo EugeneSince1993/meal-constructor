@@ -2,21 +2,27 @@ import { useState, FC, SyntheticEvent, useEffect } from 'react';
 import classNames from 'classnames';
 import dragIcon from '../assets/img/drag.svg';
 import { Button } from './Button';
-import { ArrTableIngredient } from '../types';
+import { Group, Ingredient, IRecipeBlock, RecipeBlocksArr } from '../types';
 
 interface IIngredientFormProps {
   editingEnabled: boolean;
   setEditingEnabled: (param: any) => void;
-  recipeBlock: ArrTableIngredient;
-  setRecipeBlock: (param: any) => void;
+  recipeBlock: IRecipeBlock;
+  setRecipeBlock: (recipeBlock: IRecipeBlock) => void;
+  recipeBlocks: RecipeBlocksArr;
+  setRecipeBlocks: (recipeBlocks: RecipeBlocksArr) => void;
 }
 
 export const IngredientForm: FC<IIngredientFormProps> = ({
   setEditingEnabled,
   editingEnabled,
   recipeBlock,
-  setRecipeBlock
+  setRecipeBlock,
+  recipeBlocks,
+  setRecipeBlocks
 }) => {
+  const recBlockObj: IRecipeBlock = recipeBlock;
+
   const [name, setName] = useState<string>("");
   const [weight, setWeight] = useState<string>("");
   const [kcal, setKcal] = useState<string>("");
@@ -30,17 +36,17 @@ export const IngredientForm: FC<IIngredientFormProps> = ({
     e.preventDefault();
 
     if (name && weight && kcal && annotation) {
-      setRecipeBlock((prevState: ArrTableIngredient) => {
-        return [
-          ...prevState, {
-            name,
-            weight,
-            kcal,
-            annotation
-          }
-        ];
+      recBlockObj.items.map((item: Ingredient | Group) => {
+        return {
+          ...item,
+          name,
+          weight,
+          kcal,
+          annotation
+        };
       });
-  
+
+      setRecipeBlock(recBlockObj);  
       setEditingEnabled(false); 
     }
   };
@@ -55,6 +61,11 @@ export const IngredientForm: FC<IIngredientFormProps> = ({
     setKcal("");
     setAnnotation("");
   }, [editingEnabled]);
+
+  useEffect(() => {
+    const recBlocksArr = recipeBlocks;
+    setRecipeBlocks(recBlocksArr);
+  }, [recipeBlock]);
 
   return (
     <form 

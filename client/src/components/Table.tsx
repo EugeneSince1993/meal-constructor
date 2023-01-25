@@ -1,8 +1,8 @@
-import { FC, useCallback } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import update from 'immutability-helper';
-import { Group, Ingredient, IRecipeBlock, ITableIngredient, RecipeBlocksArr } from '../types';
+import { Group, Ingredient, IRecipeBlock, RecipeBlocksArr } from '../types';
 import { IngredientForm } from './IngredientForm';
 import { TableRow } from './TableRow';
 
@@ -25,6 +25,8 @@ export const Table: FC<ITableProps> = ({
 }) => {
   const recBlockObj: IRecipeBlock = recipeBlock;
 
+  const [items, setItems] = useState<(Ingredient | Group)[]>(recipeBlock.items);
+
   const deleteIngredient = (index: number) => {
     recBlockObj.items.filter((item: Ingredient | Group, idx: number) => {
       return idx !== index;
@@ -42,6 +44,15 @@ export const Table: FC<ITableProps> = ({
     });
 
     setRecipeBlock(recBlockObj);
+
+    setCards((prevCards: Item[]) =>
+      update(prevCards, {
+        $splice: [
+          [dragIndex, 1],
+          [hoverIndex, 0, prevCards[dragIndex] as Item],
+        ],
+      }),
+    )
   }, []);
 
   const renderItem = useCallback((item: Ingredient | Group, index: number) => {
@@ -60,6 +71,11 @@ export const Table: FC<ITableProps> = ({
       />
     );
   }, []);
+
+  useEffect(() => {
+    const recBlocksArr = recipeBlocks;
+    setRecipeBlocks(recBlocksArr);
+  }, [recipeBlock]);
 
   return (
     <div className="table">
