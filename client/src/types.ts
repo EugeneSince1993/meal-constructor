@@ -1,14 +1,3 @@
-export interface ITableIngredient {
-  id: number;
-  name: string;
-  weight: string;
-  kcal: string;
-  annotation: string;
-}
-
-export type ArrTableIngredient = ITableIngredient[];
-
-
 export interface Ingredient {
   id: number;
   type: string;
@@ -34,4 +23,8 @@ export interface IRecipeBlock {
   items: (Ingredient | Group)[];
 }
 
-export type RecipeBlocksArr = IRecipeBlock[];
+export type RecipeBlocks = IRecipeBlock[];
+
+export interface IRecipeData {
+  recipeBlocks: RecipeBlocks;
+}

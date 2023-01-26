@@ -1,9 +1,10 @@
 import { FC, useState, ChangeEvent, useRef, useEffect } from 'react';
 import classNames from 'classnames';
 import { useDrag, useDrop } from 'react-dnd';
+import type { Identifier } from 'dnd-core';
 import dragIcon from '../assets/img/drag.svg';
 import deleteIcon from '../assets/img/delete-icon.svg';
-import { Group, Ingredient, IRecipeBlock, RecipeBlocksArr } from '../types';
+import { Group, Ingredient, IRecipeBlock, IRecipeData } from '../types';
 import { ItemTypes } from '../utils/ItemTypes';
 
 interface ITableRowProps {
@@ -12,9 +13,8 @@ interface ITableRowProps {
   index: number;
   id: number;
   recipeBlock: IRecipeBlock;
-  setRecipeBlock: (recipeBlock: IRecipeBlock) => void;
-  recipeBlocks: RecipeBlocksArr;
-  setRecipeBlocks: (recipeBlocks: RecipeBlocksArr) => void;
+  recipeData: IRecipeData;
+  setRecipeData: (cb: (recipeData: IRecipeData) => IRecipeData) => void;
   moveItem: (dragIndex: number, hoverIndex: number) => void;
 }
 
@@ -24,9 +24,8 @@ export const TableRow: FC<ITableRowProps> = ({
   index,
   id,
   recipeBlock,
-  setRecipeBlock,
-  recipeBlocks,
-  setRecipeBlocks,
+  recipeData,
+  setRecipeData,
   moveItem
 }) => {
   const [name, setName] = useState<string>(recipeBlock.items[index].name);
@@ -61,20 +60,18 @@ export const TableRow: FC<ITableRowProps> = ({
   };
 
   const updateInput = (index: number, propName: string, propValue: string | null) => {
-    // const recBlockObj: IRecipeBlock = recipeBlock;
-    // let itemObj: Ingredient | Group = recipeBlock.items[index];
-    // itemObj[propName] = propValue;
+    const itemObj: any = recipeBlock.items[index];
+    itemObj[propName] = propValue;
 
-    const arr = [...recipeBlock.items];
-    const obj: any = arr[index];
-    obj[propName] = propValue;
-
-    const newRecBl = {
-      ...recipeBlock,
-      items: arr
-    }
-
-    setRecipeBlock(newRecBl);
+    setRecipeData((prevRecipeData: IRecipeData) => {
+      return {
+        ...prevRecipeData,
+        recipeBlocks: [
+          ...prevRecipeData.recipeBlocks,
+          recipeBlock
+        ]
+      };
+    });
 
     switch (propName) {
       case "name":
@@ -116,17 +113,16 @@ export const TableRow: FC<ITableRowProps> = ({
     setAnnotation(recipeBlock.items[index].annotation);
   }, [recipeBlock]);
 
-  useEffect(() => {
-    const recBlocksArr = recipeBlocks;
-    setRecipeBlocks(recBlocksArr);
-  }, [recipeBlock]);
-
   // Drag and drop
   
   const dragRef = useRef<HTMLImageElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
 
-  const [{ handlerId }, drop] = useDrop({
+  const [{ handlerId }, drop] = useDrop<
+    Ingredient | Group, 
+    void,
+    { handlerId: Identifier | null }
+  >({
     accept: ItemTypes.INGREDIENT,
     collect(monitor) {
       return {

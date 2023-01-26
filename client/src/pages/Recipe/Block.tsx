@@ -1,22 +1,21 @@
 import { FC, useState } from 'react';
-import { IRecipeBlock, RecipeBlocksArr } from '../../types';
+import { IRecipeBlock, IRecipeData } from '../../types';
 import deleteIcon from '../../assets/img/delete-icon.svg';
 import plusRed from '../../assets/img/plus-red.svg';
 import { Button } from '../../components/Button';
 import { Table } from '../../components/Table';
 
 interface IRecipeBlockProps {
-  recBlock: IRecipeBlock;
-  recipeBlocks: RecipeBlocksArr;
-  setRecipeBlocks: (recipeBlocks: RecipeBlocksArr) => void;
+  recipeBlock: IRecipeBlock;
+  recipeData: IRecipeData;
+  setRecipeData: (cb: (recipeData: IRecipeData) => IRecipeData) => void;
 }
 
 export const RecipeBlock: FC<IRecipeBlockProps> = ({ 
-  recBlock,
-  recipeBlocks,
-  setRecipeBlocks
+  recipeBlock,
+  recipeData,
+  setRecipeData
  }) => {
-  const [recipeBlock, setRecipeBlock] = useState<IRecipeBlock>(recBlock);
   const [editingEnabled, setEditingEnabled] = useState<boolean>(false);
 
   return (
@@ -37,9 +36,8 @@ export const RecipeBlock: FC<IRecipeBlockProps> = ({
       </div>
       <Table 
         recipeBlock={recipeBlock} 
-        setRecipeBlock={setRecipeBlock} 
-        recipeBlocks={recipeBlocks}
-        setRecipeBlocks={setRecipeBlocks}
+        recipeData={recipeData}
+        setRecipeData={setRecipeData}
         editingEnabled={editingEnabled}
         setEditingEnabled={setEditingEnabled}
       />

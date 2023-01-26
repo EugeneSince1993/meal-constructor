@@ -1,58 +1,63 @@
-import { FC, useCallback, useEffect, useState } from 'react';
+import { FC, useCallback, useEffect } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import update from 'immutability-helper';
-import { Group, Ingredient, IRecipeBlock, RecipeBlocksArr } from '../types';
+import { Group, Ingredient, IRecipeBlock, IRecipeData } from '../types';
 import { IngredientForm } from './IngredientForm';
 import { TableRow } from './TableRow';
 
 interface ITableProps {
   recipeBlock: IRecipeBlock;
-  setRecipeBlock: (recipeBlock: IRecipeBlock) => void;
-  recipeBlocks: RecipeBlocksArr;
-  setRecipeBlocks: (recipeBlocks: RecipeBlocksArr) => void;
+  recipeData: IRecipeData;
+  setRecipeData: (cb: (recipeData: IRecipeData) => IRecipeData) => void;
   editingEnabled: boolean;
   setEditingEnabled: (param: any) => void;
 }
 
 export const Table: FC<ITableProps> = ({ 
   recipeBlock, 
-  setRecipeBlock, 
-  recipeBlocks,
-  setRecipeBlocks,
+  recipeData,
+  setRecipeData,
   editingEnabled, 
   setEditingEnabled 
 }) => {
-  const recBlockObj: IRecipeBlock = recipeBlock;
-
-  const [items, setItems] = useState<(Ingredient | Group)[]>(recipeBlock.items);
-
   const deleteIngredient = (index: number) => {
-    recBlockObj.items.filter((item: Ingredient | Group, idx: number) => {
+    recipeBlock.items.filter((item: Ingredient | Group, idx: number) => {
       return idx !== index;
     });
 
-    setRecipeBlock(recBlockObj);
+    setRecipeData((prevRecipeData: IRecipeData) => {
+      return {
+        ...prevRecipeData,
+        recipeBlocks: [
+          ...prevRecipeData.recipeBlocks,
+          recipeBlock
+        ]
+      };
+    });
   };
 
   const moveItem = useCallback((dragIndex: number, hoverIndex: number) => {
-    update(recBlockObj.items, {
+    recipeBlock.items = update(recipeBlock.items, {
       $splice: [
         [dragIndex, 1],
-        [hoverIndex, 0, recBlockObj.items[dragIndex]]
+        [hoverIndex, 0, recipeBlock.items[dragIndex] as Ingredient | Group]
       ],
     });
 
-    setRecipeBlock(recBlockObj);
+    // const newRecipeBlocks = recipeData.recipeBlocks.map();
+    // stopped here 
 
-    setCards((prevCards: Item[]) =>
-      update(prevCards, {
-        $splice: [
-          [dragIndex, 1],
-          [hoverIndex, 0, prevCards[dragIndex] as Item],
-        ],
-      }),
-    )
+    setRecipeData((prevRecipeData: IRecipeData) => {
+      return {
+        ...prevRecipeData,
+        // recipeBlocks: [
+        //   ...prevRecipeData.recipeBlocks,
+        //   recipeBlock
+        // ]
+
+      };
+    });
   }, []);
 
   const renderItem = useCallback((item: Ingredient | Group, index: number) => {
@@ -65,17 +70,15 @@ export const Table: FC<ITableProps> = ({
         item={item} 
         deleteIngredient={deleteIngredient}
         recipeBlock={recipeBlock}
-        setRecipeBlock={setRecipeBlock}
-        recipeBlocks={recipeBlocks}
-        setRecipeBlocks={setRecipeBlocks}
+        recipeData={recipeData}
+        setRecipeData={setRecipeData}
       />
     );
   }, []);
 
   useEffect(() => {
-    const recBlocksArr = recipeBlocks;
-    setRecipeBlocks(recBlocksArr);
-  }, [recipeBlock]);
+    console.log(recipeData);
+  }, [recipeData]);
 
   return (
     <div className="table">
@@ -101,9 +104,8 @@ export const Table: FC<ITableProps> = ({
             setEditingEnabled={setEditingEnabled}
             editingEnabled={editingEnabled}
             recipeBlock={recipeBlock}
-            setRecipeBlock={setRecipeBlock}
-            recipeBlocks={recipeBlocks}
-            setRecipeBlocks={setRecipeBlocks}
+            recipeData={recipeData}
+            setRecipeData={setRecipeData}
           />
         </div>
       </DndProvider>
