@@ -105,7 +105,7 @@ export const RecipeContent = () => {
       // }
     ]
   });
-  
+
   return (
     <div className="recipe-content">
       {recipeData.recipeBlocks.map((recipeBlock: IRecipeBlock, index: number) => {

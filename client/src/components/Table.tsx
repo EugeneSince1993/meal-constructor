@@ -3,8 +3,8 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import update from 'immutability-helper';
 import { Group, Ingredient, IRecipeBlock, IRecipeData } from '../types';
-import { IngredientForm } from './IngredientForm';
 import { TableRow } from './TableRow';
+import { IngredientForm } from './IngredientForm';
 
 interface ITableProps {
   recipeBlock: IRecipeBlock;
@@ -37,25 +37,30 @@ export const Table: FC<ITableProps> = ({
     });
   };
 
+  // dnd
+
   const moveItem = useCallback((dragIndex: number, hoverIndex: number) => {
-    recipeBlock.items = update(recipeBlock.items, {
+    const updatedItems = update(recipeBlock.items, {
       $splice: [
         [dragIndex, 1],
         [hoverIndex, 0, recipeBlock.items[dragIndex] as Ingredient | Group]
       ],
     });
 
-    // const newRecipeBlocks = recipeData.recipeBlocks.map();
-    // stopped here 
+    const updatedRecipeBlocks = recipeData.recipeBlocks.map((obj: IRecipeBlock) => {
+      if (obj.id === recipeBlock.id) {
+        return {
+          ...obj,
+          items: updatedItems
+        };
+      }
+      return obj;
+    });
 
     setRecipeData((prevRecipeData: IRecipeData) => {
       return {
         ...prevRecipeData,
-        // recipeBlocks: [
-        //   ...prevRecipeData.recipeBlocks,
-        //   recipeBlock
-        // ]
-
+        recipeBlocks: updatedRecipeBlocks
       };
     });
   }, []);
@@ -80,6 +85,8 @@ export const Table: FC<ITableProps> = ({
     console.log(recipeData);
   }, [recipeData]);
 
+  debugger;
+
   return (
     <div className="table">
       <DndProvider backend={HTML5Backend}>
@@ -97,9 +104,9 @@ export const Table: FC<ITableProps> = ({
           <div className="table-header__annotation">Примечание</div>
         </div>
         <div className="table__body table-body">
-          {recipeBlock.items.map((item: Ingredient | Group, index: number) => {
-            return renderItem(item, index);
-          })}
+          {recipeBlock.items.map(
+            (item: Ingredient | Group, index: number) => renderItem(item, index)
+          )}
           <IngredientForm 
             setEditingEnabled={setEditingEnabled}
             editingEnabled={editingEnabled}

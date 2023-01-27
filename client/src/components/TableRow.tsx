@@ -63,6 +63,7 @@ export const TableRow: FC<ITableRowProps> = ({
     const itemObj: any = recipeBlock.items[index];
     itemObj[propName] = propValue;
 
+    // refactor
     setRecipeData((prevRecipeData: IRecipeData) => {
       return {
         ...prevRecipeData,
@@ -117,6 +118,7 @@ export const TableRow: FC<ITableRowProps> = ({
   
   const dragRef = useRef<HTMLImageElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   const [{ handlerId }, drop] = useDrop<
     Ingredient | Group, 
@@ -130,7 +132,7 @@ export const TableRow: FC<ITableRowProps> = ({
       }
     },
     hover(item: any, monitor: any) {
-      if (!previewRef.current) {
+      if (!ref.current) {
         return;
       }
       const dragIndex = item.index;
@@ -138,7 +140,7 @@ export const TableRow: FC<ITableRowProps> = ({
       if (dragIndex === hoverIndex) {
         return;
       }
-      const hoverBoundingRect = previewRef.current?.getBoundingClientRect();
+      const hoverBoundingRect = ref.current?.getBoundingClientRect();
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
@@ -163,13 +165,13 @@ export const TableRow: FC<ITableRowProps> = ({
       isDragging: monitor.isDragging(),
     }),
   })
-  drag(dragRef);
-  drop(preview(previewRef));
+
+  drag(drop(ref));
 
   return (
     <div 
       className="table-body__row table-row ingredient"
-      ref={previewRef}
+      ref={ref}
       data-handler-id={handlerId}
     >
       <div 
@@ -178,7 +180,6 @@ export const TableRow: FC<ITableRowProps> = ({
         <img 
           src={dragIcon} 
           alt="drag-icon" 
-          ref={dragRef}
         />
       </div>
       <div 
