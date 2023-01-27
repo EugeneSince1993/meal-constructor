@@ -5,6 +5,7 @@ import update from 'immutability-helper';
 import { Group, Ingredient, IRecipeBlock, IRecipeData } from '../types';
 import { TableRow } from './TableRow';
 import { IngredientForm } from './IngredientForm';
+import { Container } from './NestedList/Container';
 
 interface ITableProps {
   recipeBlock: IRecipeBlock;
@@ -103,6 +104,8 @@ export const Table: FC<ITableProps> = ({
           {recipeBlock.items.map(
             (item: Ingredient | Group, index: number) => renderItem(item, index)
           )}
+          <div style={{marginBottom: "30px"}}></div>
+          <Container />
           <IngredientForm 
             setEditingEnabled={setEditingEnabled}
             editingEnabled={editingEnabled}
