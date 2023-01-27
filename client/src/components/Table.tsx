@@ -21,6 +21,7 @@ export const Table: FC<ITableProps> = ({
   editingEnabled, 
   setEditingEnabled 
 }) => {
+  // refactor
   const deleteIngredient = (index: number) => {
     recipeBlock.items.filter((item: Ingredient | Group, idx: number) => {
       return idx !== index;
@@ -40,27 +41,24 @@ export const Table: FC<ITableProps> = ({
   // dnd
 
   const moveItem = useCallback((dragIndex: number, hoverIndex: number) => {
-    const updatedItems = update(recipeBlock.items, {
-      $splice: [
-        [dragIndex, 1],
-        [hoverIndex, 0, recipeBlock.items[dragIndex] as Ingredient | Group]
-      ],
-    });
-
-    const updatedRecipeBlocks = recipeData.recipeBlocks.map((obj: IRecipeBlock) => {
-      if (obj.id === recipeBlock.id) {
-        return {
-          ...obj,
-          items: updatedItems
-        };
-      }
-      return obj;
-    });
-
     setRecipeData((prevRecipeData: IRecipeData) => {
       return {
         ...prevRecipeData,
-        recipeBlocks: updatedRecipeBlocks
+        recipeBlocks: prevRecipeData.recipeBlocks.map((obj: IRecipeBlock) => {
+          if (obj.id === recipeBlock.id) {
+            return {
+              ...obj,
+              items: update(obj.items, {
+                $splice: [
+                  [dragIndex, 1],
+                  [hoverIndex, 0, obj.items[dragIndex] as Ingredient | Group]
+                ],
+              })
+            };
+          } else {
+            return obj;
+          }
+        })
       };
     });
   }, []);
@@ -84,8 +82,6 @@ export const Table: FC<ITableProps> = ({
   useEffect(() => {
     console.log(recipeData);
   }, [recipeData]);
-
-  debugger;
 
   return (
     <div className="table">

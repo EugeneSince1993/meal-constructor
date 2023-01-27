@@ -61,6 +61,14 @@ export const RecipeContent = () => {
             kcal: "130",
             annotation: 'Выборжец'
           },
+          {
+            id: 4,
+            type: 'ingredient',
+            name: 'Лук',
+            weight: "12",
+            kcal: "130",
+            annotation: 'Выборжец'
+          },
           // {
           //   id: 3,
           //   type: 'group',
