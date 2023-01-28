@@ -6,6 +6,7 @@ import { Group, Ingredient, IRecipeBlock, IRecipeData } from '../types';
 import { TableRow } from './TableRow';
 import { IngredientForm } from './IngredientForm';
 import { Container } from './NestedList/Container';
+import { SourceBox } from './NestedList/SourceBox';
 
 interface ITableProps {
   recipeBlock: IRecipeBlock;
@@ -105,7 +106,12 @@ export const Table: FC<ITableProps> = ({
             (item: Ingredient | Group, index: number) => renderItem(item, index)
           )}
           <div style={{marginBottom: "30px"}}></div>
-          <Container />
+          {/* <Container /> */}
+          <SourceBox color="white">
+            {recipeBlock.items.map(
+              (item: Ingredient | Group, index: number) => renderItem(item, index)
+            )}
+          </SourceBox>
           <IngredientForm 
             setEditingEnabled={setEditingEnabled}
             editingEnabled={editingEnabled}

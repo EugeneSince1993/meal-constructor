@@ -60,12 +60,6 @@ export const SourceBox: FC<SourceBoxProps> = memo(function SourceBox({
 
   return (
     <div ref={drag} style={containerStyle} role="SourceBox" data-color={color}>
-      <input
-        type="checkbox"
-        checked={forbidDrag}
-        onChange={onToggleForbidDrag}
-      />
-      <small>Forbid drag</small>
       {children}
     </div>
   )
