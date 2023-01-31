@@ -11,32 +11,32 @@ export const RecipeContent = () => {
         id: 0,
         name: "Начинка",
         items: [
-          // {
-          //   id: 0,
-          //   type: 'group',
-          //   name: 'Соус',
-          //   weight: null,
-          //   kcal: null,
-          //   annotation: 'без примечания',
-          //   ingredients: [
-          //     {
-          //       id: 0,
-          //       type: 'ingredient',
-          //       name: 'Кетчуп',
-          //       weight: "12",
-          //       kcal: "130",
-          //       annotation: 'Heinz'
-          //     },
-          //     {
-          //       id: 1,
-          //       type: 'ingredient',
-          //       name: 'Майонез',
-          //       weight: "12",
-          //       kcal: "130",
-          //       annotation: 'Махеев'
-          //     }
-          //   ]
-          // },
+          {
+            id: 0,
+            type: 'group',
+            name: 'Соус',
+            weight: null,
+            kcal: null,
+            annotation: 'без примечания',
+            ingredients: [
+              {
+                id: 0,
+                type: 'ingredient',
+                name: 'Кетчуп',
+                weight: "12",
+                kcal: "130",
+                annotation: 'Heinz'
+              },
+              {
+                id: 1,
+                type: 'ingredient',
+                name: 'Майонез',
+                weight: "12",
+                kcal: "130",
+                annotation: 'Махеев'
+              }
+            ]
+          },
           {
             id: 1,
             type: 'ingredient',
@@ -69,48 +69,48 @@ export const RecipeContent = () => {
             kcal: "130",
             annotation: 'Выборжец'
           },
-          // {
-          //   id: 3,
-          //   type: 'group',
-          //   name: 'Котлета',
-          //   weight: null,
-          //   kcal: null,
-          //   annotation: null,
-          //   ingredients: [
-          //     {
-          //       id: 0,
-          //       type: 'ingredient',
-          //       name: 'Фарш говяжий',
-          //       weight: "12",
-          //       kcal: "130",
-          //       annotation: 'разморож.'
-          //     }
-          //   ]
-          // }
+          {
+            id: 5,
+            type: 'group',
+            name: 'Котлета',
+            weight: null,
+            kcal: null,
+            annotation: null,
+            ingredients: [
+              {
+                id: 0,
+                type: 'ingredient',
+                name: 'Фарш говяжий',
+                weight: "12",
+                kcal: "130",
+                annotation: 'разморож.'
+              }
+            ]
+          }
         ]
       },
-      // {
-      //   id: 1,
-      //   name: "Основа",
-      //   items: [
-      //     {
-      //       id: 0,
-      //       type: 'ingredient',
-      //       name: 'Булочка белая',
-      //       weight: "90",
-      //       kcal: "345",
-      //       annotation: 'Хлебный дом'
-      //     },
-      //     {
-      //       id: 1,
-      //       type: 'ingredient',
-      //       name: 'Кунжут',
-      //       weight: "8",
-      //       kcal: "45",
-      //       annotation: 'без примечания'
-      //     }
-      //   ]
-      // }
+      {
+        id: 1,
+        name: "Основа",
+        items: [
+          {
+            id: 0,
+            type: 'ingredient',
+            name: 'Булочка белая',
+            weight: "90",
+            kcal: "345",
+            annotation: 'Хлебный дом'
+          },
+          {
+            id: 1,
+            type: 'ingredient',
+            name: 'Кунжут',
+            weight: "8",
+            kcal: "45",
+            annotation: 'без примечания'
+          }
+        ]
+      }
     ]
   });
 

@@ -7,6 +7,7 @@ import { TableRow } from './TableRow';
 import { IngredientForm } from './IngredientForm';
 import { Container } from './NestedList/Container';
 import { SourceBox } from './NestedList/SourceBox';
+import { TableRowHook } from '../hooks/TableRowHook';
 
 interface ITableProps {
   recipeBlock: IRecipeBlock;
@@ -66,24 +67,55 @@ export const Table: FC<ITableProps> = ({
   }, []);
 
   const renderItem = useCallback((item: Ingredient | Group, index: number) => {
-    return (
-      <TableRow 
-        key={item.id}
-        index={index}
-        id={item.id}
-        moveItem={moveItem}
-        item={item} 
-        deleteIngredient={deleteIngredient}
-        recipeBlock={recipeBlock}
-        recipeData={recipeData}
-        setRecipeData={setRecipeData}
-      />
-    );
+    if (item.type === "ingredient") {
+      return (
+        <TableRow 
+          key={item.id}
+          index={index}
+          id={item.id}
+          moveItem={moveItem}
+          item={item} 
+          deleteIngredient={deleteIngredient}
+          recipeBlock={recipeBlock}
+          recipeData={recipeData}
+          setRecipeData={setRecipeData}
+        />
+      );
+    } else if (item.type === "group") {
+      return (
+        <SourceBox
+          color="white"
+          key={item.id}
+          index={index}
+          id={item.id}
+          moveItem={moveItem}
+          item={item} 
+          deleteIngredient={deleteIngredient}
+          recipeBlock={recipeBlock}
+          recipeData={recipeData}
+          setRecipeData={setRecipeData}
+        >
+        </SourceBox>
+      );
+    }
   }, []);
 
   useEffect(() => {
     console.log(recipeData);
   }, [recipeData]);
+
+  // const trhResponse = TableRowHook({
+  //   index={index}
+  //   id={item.id}
+  //   moveItem={moveItem}
+  //   item={item} 
+  //   deleteIngredient={deleteIngredient}
+  //   recipeBlock={recipeBlock}
+  //   recipeData={recipeData}
+  //   setRecipeData={setRecipeData}
+  // });
+
+  // console.log(trhResponse);
 
   return (
     <div className="table">
@@ -102,16 +134,14 @@ export const Table: FC<ITableProps> = ({
           <div className="table-header__annotation">Примечание</div>
         </div>
         <div className="table__body table-body">
+          {/* {recipeBlock.items.map(
+            (item: Ingredient | Group, index: number) => renderItem(item, index)
+          )} */}
+          <div style={{marginBottom: "30px"}}></div>
+          {/* <Container /> */}
           {recipeBlock.items.map(
             (item: Ingredient | Group, index: number) => renderItem(item, index)
           )}
-          <div style={{marginBottom: "30px"}}></div>
-          {/* <Container /> */}
-          <SourceBox color="white">
-            {recipeBlock.items.map(
-              (item: Ingredient | Group, index: number) => renderItem(item, index)
-            )}
-          </SourceBox>
           <IngredientForm 
             setEditingEnabled={setEditingEnabled}
             editingEnabled={editingEnabled}

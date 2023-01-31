@@ -32,6 +32,7 @@ export const TableRow: FC<ITableRowProps> = ({
   const [weight, setWeight] = useState<string | null>(recipeBlock.items[index].weight);
   const [kcal, setKcal] = useState<string | null>(recipeBlock.items[index].kcal);
   const [annotation, setAnnotation] = useState<string | null>(recipeBlock.items[index].annotation);
+  
   const [titleInputShown, setTitleInputShown] = useState<boolean>(false);
   const [weightInputShown, setWeightInputShown] = useState<boolean>(false);
   const [kcalInputShown, setKcalInputShown] = useState<boolean>(false);
@@ -118,7 +119,6 @@ export const TableRow: FC<ITableRowProps> = ({
   
   const dragRef = useRef<HTMLImageElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
-  const ref = useRef<HTMLDivElement>(null);
 
   const [{ handlerId }, drop] = useDrop<
     Ingredient | Group, 
@@ -132,7 +132,7 @@ export const TableRow: FC<ITableRowProps> = ({
       }
     },
     hover(item: any, monitor: any) {
-      if (!ref.current) {
+      if (!previewRef.current) {
         return;
       }
       const dragIndex = item.index;
@@ -140,7 +140,7 @@ export const TableRow: FC<ITableRowProps> = ({
       if (dragIndex === hoverIndex) {
         return;
       }
-      const hoverBoundingRect = ref.current?.getBoundingClientRect();
+      const hoverBoundingRect = previewRef.current?.getBoundingClientRect();
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
@@ -166,12 +166,15 @@ export const TableRow: FC<ITableRowProps> = ({
     }),
   })
 
-  drag(drop(ref));
+  drag(dragRef);
+  drop(preview(previewRef));
+
+  // to make group wrapper and indents to tablerows
 
   return (
     <div 
       className="table-body__row table-row ingredient"
-      ref={ref}
+      ref={previewRef}
       data-handler-id={handlerId}
     >
       <div 
@@ -180,6 +183,7 @@ export const TableRow: FC<ITableRowProps> = ({
         <img 
           src={dragIcon} 
           alt="drag-icon" 
+          ref={dragRef}
         />
       </div>
       <div 
