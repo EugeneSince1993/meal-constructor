@@ -1,25 +1,18 @@
-import { CSSProperties, FC, ReactNode, useEffect, useRef, ChangeEvent } from 'react'
-import { memo, useCallback, useMemo, useState } from 'react'
-import { DragSourceMonitor, useDrop, useDrag } from 'react-dnd'
-import type { Identifier } from 'dnd-core'
-import { Group, Ingredient, IRecipeBlock, IRecipeData } from '../../types'
-import { Colors } from './Colors'
-import { ItemTypes } from '../../utils/ItemTypes'
-import classNames from 'classnames'
+import { FC, ReactNode, useEffect, useRef, ChangeEvent, memo, useState, useCallback } from 'react';
+import { useDrop, useDrag } from 'react-dnd';
+import type { Identifier } from 'dnd-core';
+import classNames from 'classnames';
+import update from 'immutability-helper';
+import { Group, Ingredient, IRecipeBlock, IRecipeData } from '../../types';
+import { ItemTypes } from '../../utils/ItemTypes';
 import dragIcon from '../../assets/img/drag.svg';
 import deleteIcon from '../../assets/img/delete-icon.svg';
-
-const style: CSSProperties = {
-  border: '1px dashed gray',
-  padding: '0.5rem',
-  margin: '0.5rem',
-}
+import { TableRow } from '../TableRow';
+import { IngredientContainer } from './IngredientContainter';
 
 export interface SourceBoxProps {
-  color: string
-  onToggleForbidDrag?: () => void
-  children?: ReactNode
-  item: Ingredient | Group;
+  children?: ReactNode;
+  item: Group;
   deleteIngredient: (index: number) => void;
   index: number;
   id: number;
@@ -30,7 +23,6 @@ export interface SourceBoxProps {
 }
 
 export const SourceBox: FC<SourceBoxProps> = memo(function SourceBox({
-  color,
   children,
   item,
   deleteIngredient,
@@ -129,24 +121,6 @@ export const SourceBox: FC<SourceBoxProps> = memo(function SourceBox({
     setAnnotation(recipeBlock.items[index].annotation);
   }, [recipeBlock]);
 
-  // dnd original for sourcebox
-
-  // const [forbidDrag, setForbidDrag] = useState(false)
-  // const [{ isDragging }, drag] = useDrag(
-  //   () => ({
-  //     type: color,
-  //     canDrag: !forbidDrag,
-  //     collect: (monitor: DragSourceMonitor) => ({
-  //       isDragging: monitor.isDragging(),
-  //     }),
-  //   }),
-  //   [forbidDrag, color],
-  // )
-
-  // const onToggleForbidDrag = useCallback(() => {
-  //   setForbidDrag(!forbidDrag)
-  // }, [forbidDrag, setForbidDrag])
-
   // dnd for tablerow
 
   const dragRef = useRef<HTMLImageElement>(null);
@@ -201,39 +175,42 @@ export const SourceBox: FC<SourceBoxProps> = memo(function SourceBox({
   drag(dragRef);
   drop(preview(previewRef));
 
-  // styles
+  // stopped here, fixing dnd not working for list ingredients
 
-  const backgroundColor = useMemo(() => {
-    switch (color) {
-      case Colors.YELLOW:
-        return 'lightgoldenrodyellow'
-      case Colors.BLUE:
-        return 'lightblue'
-      case Colors.WHITE:
-        return 'white'
-      default:
-        return 'lightgoldenrodyellow'
-    }
-  }, [color]);
-
-  const containerStyle = useMemo(
-    () => ({
-      ...style,
-      backgroundColor,
-      opacity: isDragging ? 0.4 : 1,
-      // cursor: forbidDrag ? 'default' : 'move',
-    }),
-    [backgroundColor],
-  );
-
-  // stopped here, need to add children to sourcebox
+  const moveListItem = useCallback((dragIndex: number, hoverIndex: number) => {
+    setRecipeData((prevRecipeData: IRecipeData) => {
+      return {
+        ...prevRecipeData,
+        recipeBlocks: prevRecipeData.recipeBlocks.map((obj: IRecipeBlock) => {
+          if (obj.id === recipeBlock.id) {
+            return {
+              ...obj,
+              items: update(obj.items, {
+                $splice: [
+                  [dragIndex, 1],
+                  [hoverIndex, 0, obj.items[dragIndex] as Ingredient | Group]
+                ],
+              })
+            };
+          } else {
+            return obj;
+          }
+        })
+      };
+    });
+  }, []);
 
   return (
-    <div ref={drag} style={containerStyle} role="SourceBox" data-color={color}>
+    <div 
+      ref={previewRef} 
+      data-handler-id={handlerId}
+      role="SourceBox" 
+      className="group-container"
+    >
       <div 
-        className="table-body__row table-row ingredient ingredient-group"
-        ref={previewRef}
-        data-handler-id={handlerId}
+        className="table-body__row table-row ingredient-group"
+        // ref={previewRef}
+        // data-handler-id={handlerId}
       >
         <div 
           className="table-row__drag-block"
@@ -367,7 +344,14 @@ export const SourceBox: FC<SourceBoxProps> = memo(function SourceBox({
           <img src={deleteIcon} alt="delete-icon" />
         </div>
       </div>
-      {children}
+      <IngredientContainer 
+        item={item}
+        deleteIngredient={deleteIngredient}
+        recipeBlock={recipeBlock}
+        recipeData={recipeData}
+        setRecipeData={setRecipeData}
+        moveItem={moveListItem}
+      />
     </div>
   )
 })

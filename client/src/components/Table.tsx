@@ -66,7 +66,7 @@ export const Table: FC<ITableProps> = ({
     });
   }, []);
 
-  const renderItem = useCallback((item: Ingredient | Group, index: number) => {
+  const renderItem = useCallback((item: any, index: number) => {
     if (item.type === "ingredient") {
       return (
         <TableRow 
@@ -84,7 +84,6 @@ export const Table: FC<ITableProps> = ({
     } else if (item.type === "group") {
       return (
         <SourceBox
-          color="white"
           key={item.id}
           index={index}
           id={item.id}
@@ -137,7 +136,7 @@ export const Table: FC<ITableProps> = ({
           {/* {recipeBlock.items.map(
             (item: Ingredient | Group, index: number) => renderItem(item, index)
           )} */}
-          <div style={{marginBottom: "30px"}}></div>
+          {/* <div style={{marginBottom: "30px"}}></div> */}
           {/* <Container /> */}
           {recipeBlock.items.map(
             (item: Ingredient | Group, index: number) => renderItem(item, index)

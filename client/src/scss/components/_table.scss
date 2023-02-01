@@ -40,46 +40,26 @@
   }
 
   .table__body.table-body {
-    // display: flex;
 
-    // #draggable-element {
-    //   width: 100px;
-    //   height: 100px;
-    //   // background-color: #666;
-    //   color: white;
-    //   // padding: 10px 12px;
-    //   cursor: move;
-    //   position: relative;
-    //   /* important (all position that's not `static`) */
-    // }
+    .group-container {
 
-    // .face {
-    //   animation: shake 1s cubic-bezier(.36, .07, .19, .97) both;
-    //   transform: translate3d(0, 0, 0);
-    //   backface-visibility: hidden;
-    //   perspective: 1000px;
-    // }
+      .ingredient-group {
 
-    // @keyframes shake {
-    //   10%,
-    //   90% {
-    //     transform: translate3d(-1px, 0, 0);
-    //   }
-    //   20%,
-    //   80% {
-    //     transform: translate3d(4px, 0, 0);
-    //   }
-    //   30%,
-    //   50%,
-    //   70% {
-    //     transform: translate3d(-5px, 0, 0);
-    //   }
-    //   40%,
-    //   60% {
-    //     transform: translate3d(5px, 0, 0);
-    //   }
-    // }
+        .table-row__title.table-row-title {
 
+          .table-row-title__info {
+            font-weight: 600;
+          }
+        }
+      }
+
+      .table-body__row.table-row.ingredient {
+
+        .table-row__title.table-row-title {
+          padding-left: 20px;
+        }
+      }
+    }
   }
 
   .checkbox-container {

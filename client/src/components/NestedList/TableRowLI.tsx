@@ -2,12 +2,12 @@ import { FC, useState, ChangeEvent, useRef, useEffect } from 'react';
 import classNames from 'classnames';
 import { useDrag, useDrop } from 'react-dnd';
 import type { Identifier } from 'dnd-core';
-import dragIcon from '../assets/img/drag.svg';
-import deleteIcon from '../assets/img/delete-icon.svg';
-import { Group, Ingredient, IRecipeBlock, IRecipeData } from '../types';
-import { ItemTypes } from '../utils/ItemTypes';
+import dragIcon from '../../assets/img/drag.svg';
+import deleteIcon from '../../assets/img/delete-icon.svg';
+import { Group, Ingredient, IRecipeBlock, IRecipeData } from '../../types';
+import { ItemTypes } from '../../utils/ItemTypes';
 
-interface ITableRowProps {
+interface ITableRowLIProps {
   item: Ingredient | Group;
   deleteIngredient: (index: number) => void;
   index: number;
@@ -15,11 +15,11 @@ interface ITableRowProps {
   recipeBlock: IRecipeBlock;
   recipeData: IRecipeData;
   setRecipeData: (cb: (recipeData: IRecipeData) => IRecipeData) => void;
-  moveItem: (dragIndex: number, hoverIndex: number) => void;
+  moveItem: any;
   subIngredient?: boolean;
 }
 
-export const TableRow: FC<ITableRowProps> = ({
+export const TableRowLI: FC<ITableRowLIProps> = ({
   item,
   deleteIngredient,
   index,
@@ -119,7 +119,9 @@ export const TableRow: FC<ITableRowProps> = ({
 
   // Drag and drop
 
-  const ingredientResult = subIngredient ? ItemTypes.SUBINGREDIENT : ItemTypes.INGREDIENT;
+  // const ingredientResult = subIngredient ? ItemTypes.SUBINGREDIENT : ItemTypes.INGREDIENT;
+
+  // stopped here - fix list items dnd
   
   const dragRef = useRef<HTMLImageElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
@@ -129,7 +131,7 @@ export const TableRow: FC<ITableRowProps> = ({
     void,
     { handlerId: Identifier | null }
   >({
-    accept: ingredientResult,
+    accept: ItemTypes.INGREDIENT,
     collect(monitor) {
       return {
         handlerId: monitor.getHandlerId(),
@@ -161,7 +163,7 @@ export const TableRow: FC<ITableRowProps> = ({
   });
 
   const [{ isDragging }, drag, preview] = useDrag({
-    type: ingredientResult,
+    type: ItemTypes.INGREDIENT,
     item: () => {
       return { id, index };
     },

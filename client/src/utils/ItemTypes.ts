@@ -1,3 +1,4 @@
 export const ItemTypes = {
-  INGREDIENT: 'ingredient'
+  INGREDIENT: 'ingredient',
+  SUBINGREDIENT: 'subingredient'
 };
