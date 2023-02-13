@@ -9,6 +9,7 @@ import dragIcon from '../../assets/img/drag.svg';
 import deleteIcon from '../../assets/img/delete-icon.svg';
 import { TableRow } from '../TableRow';
 import { IngredientContainer } from './IngredientContainter';
+import { SubTableRow } from './SubTableRow';
 
 export interface SourceBoxProps {
   children?: ReactNode;
@@ -175,29 +176,57 @@ export const SourceBox: FC<SourceBoxProps> = memo(function SourceBox({
   drag(dragRef);
   drop(preview(previewRef));
 
-  // stopped here, fixing dnd not working for list ingredients
+  // function isGroup(object: any): object is Group {
+  //   return 'id' in object;
+  // }
 
-  const moveListItem = useCallback((dragIndex: number, hoverIndex: number) => {
-    setRecipeData((prevRecipeData: IRecipeData) => {
-      return {
-        ...prevRecipeData,
-        recipeBlocks: prevRecipeData.recipeBlocks.map((obj: IRecipeBlock) => {
-          if (obj.id === recipeBlock.id) {
-            return {
-              ...obj,
-              items: update(obj.items, {
-                $splice: [
-                  [dragIndex, 1],
-                  [hoverIndex, 0, obj.items[dragIndex] as Ingredient | Group]
-                ],
-              })
-            };
-          } else {
-            return obj;
-          }
-        })
-      };
-    });
+  const moveSubItem = useCallback((dragIndex: number, hoverIndex: number) => {
+      setRecipeData((prevRecipeData: IRecipeData) => {
+        return {
+          ...prevRecipeData,
+          recipeBlocks: prevRecipeData.recipeBlocks.map((obj: IRecipeBlock) => {
+            if (obj.id === recipeBlock.id) {
+              return {
+                ...obj,
+                items: obj.items.map((itemUnit: any) => {
+                  // console.log("itemUnit.ingredients is: ", itemUnit.ingredients);
+                  if (itemUnit.hasOwnProperty('ingredients')) {
+                    return {
+                      ...itemUnit,
+                      ingredients: update(itemUnit.ingredients, {
+                        $splice: [
+                          [dragIndex, 1],
+                          [hoverIndex, 0, itemUnit.ingredients[dragIndex] as Ingredient]
+                        ]
+                      })
+                    };
+                  } else {
+                    return itemUnit;
+                  }
+                })
+              };
+            } else {
+              return obj;
+            }
+          })
+        };
+      });
+  }, []);
+
+  const renderSubItems = useCallback((subItem: Ingredient, index: number) => {
+    return (
+      <SubTableRow 
+        index={index}
+        id={subItem.id}
+        moveSubItem={moveSubItem}
+        item={subItem} 
+        deleteIngredient={deleteIngredient}
+        recipeBlock={recipeBlock}
+        recipeData={recipeData}
+        setRecipeData={setRecipeData}
+        key={subItem.id}
+      />
+    );
   }, []);
 
   return (
@@ -344,14 +373,23 @@ export const SourceBox: FC<SourceBoxProps> = memo(function SourceBox({
           <img src={deleteIcon} alt="delete-icon" />
         </div>
       </div>
-      <IngredientContainer 
+      <div
+        className="ingredient-container"
+      >
+        {item.hasOwnProperty('ingredients') && (
+          item.ingredients.map((subItem, index) => renderSubItems(subItem, index))
+        )}
+      </div>
+
+      {/* <IngredientContainer 
         item={item}
         deleteIngredient={deleteIngredient}
         recipeBlock={recipeBlock}
         recipeData={recipeData}
         setRecipeData={setRecipeData}
-        moveItem={moveListItem}
-      />
+        moveSubItem={moveSubItem}
+        renderSubItems={renderSubItems}
+      /> */}
     </div>
   )
 })

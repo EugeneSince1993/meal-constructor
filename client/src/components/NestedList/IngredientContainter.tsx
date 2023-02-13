@@ -6,17 +6,18 @@ import { TableRowLI } from "./TableRowLI";
 
 interface IProps {
   item: Group;
-  moveItem: any;
   deleteIngredient: (index: number) => void;
   recipeBlock: IRecipeBlock;
   recipeData: IRecipeData;
   setRecipeData: (cb: (recipeData: IRecipeData) => IRecipeData) => void;
-
+  moveSubItem: any;
+  renderSubItems: any;
 }
 
 export const IngredientContainer: FC<IProps> = ({
   item,
-  moveItem,
+  moveSubItem,
+  renderSubItems,
   deleteIngredient,
   recipeBlock,
   recipeData,
@@ -26,29 +27,12 @@ export const IngredientContainer: FC<IProps> = ({
     accept: ItemTypes.INGREDIENT
   }));
 
-  const renderItem = useCallback((ingredient: Ingredient, index: number) => {
-    return (
-      <TableRowLI 
-        key={ingredient.id}
-        index={index}
-        id={ingredient.id}
-        moveItem={moveItem}
-        item={ingredient} 
-        deleteIngredient={deleteIngredient}
-        recipeBlock={recipeBlock}
-        recipeData={recipeData}
-        setRecipeData={setRecipeData}
-        subIngredient={true}
-      />
-    );
-  }, []);
-
   return (
     <div
       className="ingredient-container"
       ref={drop}
     >
-      {item.ingredients.map((ingredient: Ingredient, index: number) => renderItem(ingredient, index))}
+      {item.ingredients.map((ingredient: Ingredient, index: number) => renderSubItems(ingredient, index))}
     </div>
   );
 };

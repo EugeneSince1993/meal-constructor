@@ -70,7 +70,6 @@ export const Table: FC<ITableProps> = ({
     if (item.type === "ingredient") {
       return (
         <TableRow 
-          key={item.id}
           index={index}
           id={item.id}
           moveItem={moveItem}
@@ -79,12 +78,12 @@ export const Table: FC<ITableProps> = ({
           recipeBlock={recipeBlock}
           recipeData={recipeData}
           setRecipeData={setRecipeData}
+          key={item.id}
         />
       );
     } else if (item.type === "group") {
       return (
         <SourceBox
-          key={item.id}
           index={index}
           id={item.id}
           moveItem={moveItem}
@@ -93,6 +92,7 @@ export const Table: FC<ITableProps> = ({
           recipeBlock={recipeBlock}
           recipeData={recipeData}
           setRecipeData={setRecipeData}
+          key={item.id}
         >
         </SourceBox>
       );
@@ -102,19 +102,6 @@ export const Table: FC<ITableProps> = ({
   useEffect(() => {
     console.log(recipeData);
   }, [recipeData]);
-
-  // const trhResponse = TableRowHook({
-  //   index={index}
-  //   id={item.id}
-  //   moveItem={moveItem}
-  //   item={item} 
-  //   deleteIngredient={deleteIngredient}
-  //   recipeBlock={recipeBlock}
-  //   recipeData={recipeData}
-  //   setRecipeData={setRecipeData}
-  // });
-
-  // console.log(trhResponse);
 
   return (
     <div className="table">

@@ -2,23 +2,23 @@ import { FC, useState, ChangeEvent, useRef, useEffect } from 'react';
 import classNames from 'classnames';
 import { useDrag, useDrop } from 'react-dnd';
 import type { Identifier } from 'dnd-core';
-import dragIcon from '../assets/img/drag.svg';
-import deleteIcon from '../assets/img/delete-icon.svg';
-import { Group, Ingredient, IRecipeBlock, IRecipeData } from '../types';
-import { ItemTypes } from '../utils/ItemTypes';
+import dragIcon from '../../assets/img/drag.svg';
+import deleteIcon from '../../assets/img/delete-icon.svg';
+import { Group, Ingredient, IRecipeBlock, IRecipeData } from '../../types';
+import { ItemTypes } from '../../utils/ItemTypes';
 
-interface ITableRowProps {
-  item: Ingredient | Group;
+interface ISubTableRowProps {
+  item: Ingredient;
   deleteIngredient: (index: number) => void;
   index: number;
   id: number;
   recipeBlock: IRecipeBlock;
   recipeData: IRecipeData;
   setRecipeData: (cb: (recipeData: IRecipeData) => IRecipeData) => void;
-  moveItem: (dragIndex: number, hoverIndex: number) => void;
+  moveSubItem: (dragIndex: number, hoverIndex: number) => void;
 }
 
-export const TableRow: FC<ITableRowProps> = ({
+export const SubTableRow: FC<ISubTableRowProps> = ({
   item,
   deleteIngredient,
   index,
@@ -26,7 +26,7 @@ export const TableRow: FC<ITableRowProps> = ({
   recipeBlock,
   recipeData,
   setRecipeData,
-  moveItem
+  moveSubItem
 }) => {
   const [name, setName] = useState<string>(recipeBlock.items[index].name);
   const [weight, setWeight] = useState<string | null>(recipeBlock.items[index].weight);
@@ -125,7 +125,7 @@ export const TableRow: FC<ITableRowProps> = ({
     void,
     { handlerId: Identifier | null }
   >({
-    accept: ItemTypes.INGREDIENT,
+    accept: ItemTypes.SUBINGREDIENT,
     collect(monitor) {
       return {
         handlerId: monitor.getHandlerId(),
@@ -151,21 +151,21 @@ export const TableRow: FC<ITableRowProps> = ({
       if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
         return;
       }
-      moveItem(dragIndex, hoverIndex);
+      moveSubItem(dragIndex, hoverIndex);
 
       item.index = hoverIndex;
     },
   });
 
   const [{ isDragging }, drag, preview] = useDrag({
-    type: ItemTypes.INGREDIENT,
+    type: ItemTypes.SUBINGREDIENT,
     item: () => {
       return { id, index };
     },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
-  })
+  });
 
   drag(dragRef);
   drop(preview(previewRef));

@@ -69,24 +69,24 @@ export const RecipeContent = () => {
             kcal: "130",
             annotation: 'Выборжец'
           },
-          {
-            id: 5,
-            type: 'group',
-            name: 'Котлета',
-            weight: null,
-            kcal: null,
-            annotation: null,
-            ingredients: [
-              {
-                id: 0,
-                type: 'ingredient',
-                name: 'Фарш говяжий',
-                weight: "12",
-                kcal: "130",
-                annotation: 'разморож.'
-              }
-            ]
-          }
+          // {
+          //   id: 5,
+          //   type: 'group',
+          //   name: 'Котлета',
+          //   weight: null,
+          //   kcal: null,
+          //   annotation: null,
+          //   ingredients: [
+          //     {
+          //       id: 0,
+          //       type: 'ingredient',
+          //       name: 'Фарш говяжий',
+          //       weight: "12",
+          //       kcal: "130",
+          //       annotation: 'разморож.'
+          //     }
+          //   ]
+          // }
         ]
       },
       {
