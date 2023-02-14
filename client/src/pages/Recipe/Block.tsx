@@ -1,13 +1,9 @@
-import { FC, useCallback, useState } from 'react';
-import update from 'immutability-helper';
-
-import { IRecipeBlock, IRecipeData, Group, Ingredient } from '../../types';
+import { FC, useState } from 'react';
+import { IRecipeBlock, IRecipeData } from '../../types';
 import deleteIcon from '../../assets/img/delete-icon.svg';
 import plusRed from '../../assets/img/plus-red.svg';
 import { Button } from '../../components/Button';
 import { Table } from '../../components/Table';
-import { TableRow } from '../../components';
-import { SourceBox } from '../../components/NestedList/SourceBox';
 
 interface IRecipeBlockProps {
   recipeBlock: IRecipeBlock;

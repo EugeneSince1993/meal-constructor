@@ -7,7 +7,7 @@ export interface Ingredient {
   annotation: string;
 } 
 
-export interface Group {
+export interface IGroup {
   id: number;
   type: string;
   name: string;
@@ -20,7 +20,7 @@ export interface Group {
 export interface IRecipeBlock {
   id: number;
   name: string;
-  items: (Ingredient | Group)[];
+  items: (Ingredient | IGroup)[];
 }
 
 export type RecipeBlocks = IRecipeBlock[];

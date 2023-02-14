@@ -3,17 +3,15 @@ import { useDrop, useDrag } from 'react-dnd';
 import type { Identifier } from 'dnd-core';
 import classNames from 'classnames';
 import update from 'immutability-helper';
-import { Group, Ingredient, IRecipeBlock, IRecipeData } from '../../types';
+import { IGroup, Ingredient, IRecipeBlock, IRecipeData } from '../../types';
 import { ItemTypes } from '../../utils/ItemTypes';
 import dragIcon from '../../assets/img/drag.svg';
 import deleteIcon from '../../assets/img/delete-icon.svg';
-import { TableRow } from '../TableRow';
-import { IngredientContainer } from './IngredientContainter';
-import { SubTableRow } from './SubTableRow';
+import { SubIngredient } from './SubIngredient';
 
-export interface SourceBoxProps {
+export interface GroupProps {
   children?: ReactNode;
-  item: Group;
+  item: IGroup;
   deleteIngredient: (index: number) => void;
   index: number;
   id: number;
@@ -23,7 +21,7 @@ export interface SourceBoxProps {
   moveItem: (dragIndex: number, hoverIndex: number) => void;
 }
 
-export const SourceBox: FC<SourceBoxProps> = memo(function SourceBox({
+export const Group: FC<GroupProps> = memo(function SourceBox({
   children,
   item,
   deleteIngredient,
@@ -128,7 +126,7 @@ export const SourceBox: FC<SourceBoxProps> = memo(function SourceBox({
   const previewRef = useRef<HTMLDivElement>(null);
 
   const [{ handlerId }, drop] = useDrop<
-    Ingredient | Group, 
+    Ingredient | IGroup, 
     void,
     { handlerId: Identifier | null }
   >({
@@ -176,10 +174,6 @@ export const SourceBox: FC<SourceBoxProps> = memo(function SourceBox({
   drag(dragRef);
   drop(preview(previewRef));
 
-  // function isGroup(object: any): object is Group {
-  //   return 'id' in object;
-  // }
-
   const moveSubItem = useCallback((dragIndex: number, hoverIndex: number) => {
       setRecipeData((prevRecipeData: IRecipeData) => {
         return {
@@ -189,8 +183,7 @@ export const SourceBox: FC<SourceBoxProps> = memo(function SourceBox({
               return {
                 ...obj,
                 items: obj.items.map((itemUnit: any) => {
-                  // console.log("itemUnit.ingredients is: ", itemUnit.ingredients);
-                  if (itemUnit.hasOwnProperty('ingredients')) {
+                  if (itemUnit.id === item.id && itemUnit.hasOwnProperty('ingredients')) {
                     return {
                       ...itemUnit,
                       ingredients: update(itemUnit.ingredients, {
@@ -215,7 +208,7 @@ export const SourceBox: FC<SourceBoxProps> = memo(function SourceBox({
 
   const renderSubItems = useCallback((subItem: Ingredient, index: number) => {
     return (
-      <SubTableRow 
+      <SubIngredient 
         index={index}
         id={subItem.id}
         moveSubItem={moveSubItem}
@@ -238,8 +231,6 @@ export const SourceBox: FC<SourceBoxProps> = memo(function SourceBox({
     >
       <div 
         className="table-body__row table-row ingredient-group"
-        // ref={previewRef}
-        // data-handler-id={handlerId}
       >
         <div 
           className="table-row__drag-block"
@@ -380,16 +371,6 @@ export const SourceBox: FC<SourceBoxProps> = memo(function SourceBox({
           item.ingredients.map((subItem, index) => renderSubItems(subItem, index))
         )}
       </div>
-
-      {/* <IngredientContainer 
-        item={item}
-        deleteIngredient={deleteIngredient}
-        recipeBlock={recipeBlock}
-        recipeData={recipeData}
-        setRecipeData={setRecipeData}
-        moveSubItem={moveSubItem}
-        renderSubItems={renderSubItems}
-      /> */}
     </div>
   )
 })

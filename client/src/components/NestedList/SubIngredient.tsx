@@ -4,22 +4,21 @@ import { useDrag, useDrop } from 'react-dnd';
 import type { Identifier } from 'dnd-core';
 import dragIcon from '../../assets/img/drag.svg';
 import deleteIcon from '../../assets/img/delete-icon.svg';
-import { Group, Ingredient, IRecipeBlock, IRecipeData } from '../../types';
+import { IGroup, Ingredient, IRecipeBlock, IRecipeData } from '../../types';
 import { ItemTypes } from '../../utils/ItemTypes';
 
-interface ITableRowLIProps {
-  item: Ingredient | Group;
+interface ISubIngredientProps {
+  item: Ingredient;
   deleteIngredient: (index: number) => void;
   index: number;
   id: number;
   recipeBlock: IRecipeBlock;
   recipeData: IRecipeData;
   setRecipeData: (cb: (recipeData: IRecipeData) => IRecipeData) => void;
-  moveItem: any;
-  subIngredient?: boolean;
+  moveSubItem: (dragIndex: number, hoverIndex: number) => void;
 }
 
-export const TableRowLI: FC<ITableRowLIProps> = ({
+export const SubIngredient: FC<ISubIngredientProps> = ({
   item,
   deleteIngredient,
   index,
@@ -27,8 +26,7 @@ export const TableRowLI: FC<ITableRowLIProps> = ({
   recipeBlock,
   recipeData,
   setRecipeData,
-  moveItem,
-  subIngredient
+  moveSubItem
 }) => {
   const [name, setName] = useState<string>(recipeBlock.items[index].name);
   const [weight, setWeight] = useState<string | null>(recipeBlock.items[index].weight);
@@ -119,19 +117,15 @@ export const TableRowLI: FC<ITableRowLIProps> = ({
 
   // Drag and drop
 
-  // const ingredientResult = subIngredient ? ItemTypes.SUBINGREDIENT : ItemTypes.INGREDIENT;
-
-  // stopped here - fix list items dnd
-  
   const dragRef = useRef<HTMLImageElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
 
   const [{ handlerId }, drop] = useDrop<
-    Ingredient | Group, 
+    Ingredient | IGroup, 
     void,
     { handlerId: Identifier | null }
   >({
-    accept: ItemTypes.INGREDIENT,
+    accept: ItemTypes.SUBINGREDIENT,
     collect(monitor) {
       return {
         handlerId: monitor.getHandlerId(),
@@ -157,20 +151,21 @@ export const TableRowLI: FC<ITableRowLIProps> = ({
       if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
         return;
       }
-      moveItem(dragIndex, hoverIndex);
+      moveSubItem(dragIndex, hoverIndex);
+
       item.index = hoverIndex;
     },
   });
 
   const [{ isDragging }, drag, preview] = useDrag({
-    type: ItemTypes.INGREDIENT,
+    type: ItemTypes.SUBINGREDIENT,
     item: () => {
       return { id, index };
     },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
-  })
+  });
 
   drag(dragRef);
   drop(preview(previewRef));

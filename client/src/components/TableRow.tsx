@@ -4,11 +4,11 @@ import { useDrag, useDrop } from 'react-dnd';
 import type { Identifier } from 'dnd-core';
 import dragIcon from '../assets/img/drag.svg';
 import deleteIcon from '../assets/img/delete-icon.svg';
-import { Group, Ingredient, IRecipeBlock, IRecipeData } from '../types';
+import { IGroup, Ingredient, IRecipeBlock, IRecipeData } from '../types';
 import { ItemTypes } from '../utils/ItemTypes';
 
 interface ITableRowProps {
-  item: Ingredient | Group;
+  item: Ingredient | IGroup;
   deleteIngredient: (index: number) => void;
   index: number;
   id: number;
@@ -121,7 +121,7 @@ export const TableRow: FC<ITableRowProps> = ({
   const previewRef = useRef<HTMLDivElement>(null);
 
   const [{ handlerId }, drop] = useDrop<
-    Ingredient | Group, 
+    Ingredient | IGroup, 
     void,
     { handlerId: Identifier | null }
   >({

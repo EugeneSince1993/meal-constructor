@@ -2,7 +2,7 @@ import { useState, FC, SyntheticEvent, useEffect } from 'react';
 import classNames from 'classnames';
 import dragIcon from '../assets/img/drag.svg';
 import { Button } from './Button';
-import { Group, Ingredient, IRecipeBlock, IRecipeData } from '../types';
+import { IGroup, Ingredient, IRecipeBlock, IRecipeData } from '../types';
 
 interface IIngredientFormProps {
   editingEnabled: boolean;
@@ -32,7 +32,7 @@ export const IngredientForm: FC<IIngredientFormProps> = ({
     e.preventDefault();
 
     if (name && weight && kcal && annotation) {
-      recipeBlock.items.map((item: Ingredient | Group) => {
+      recipeBlock.items.map((item: Ingredient | IGroup) => {
         return {
           ...item,
           name,

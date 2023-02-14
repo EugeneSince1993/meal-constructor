@@ -2,12 +2,10 @@ import { FC, useCallback, useEffect } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import update from 'immutability-helper';
-import { Group, Ingredient, IRecipeBlock, IRecipeData } from '../types';
+import { IGroup, Ingredient, IRecipeBlock, IRecipeData } from '../types';
 import { TableRow } from './TableRow';
 import { IngredientForm } from './IngredientForm';
-import { Container } from './NestedList/Container';
-import { SourceBox } from './NestedList/SourceBox';
-import { TableRowHook } from '../hooks/TableRowHook';
+import { Group } from './NestedList/Group';
 
 interface ITableProps {
   recipeBlock: IRecipeBlock;
@@ -26,7 +24,7 @@ export const Table: FC<ITableProps> = ({
 }) => {
   // refactor
   const deleteIngredient = (index: number) => {
-    recipeBlock.items.filter((item: Ingredient | Group, idx: number) => {
+    recipeBlock.items.filter((item: Ingredient | IGroup, idx: number) => {
       return idx !== index;
     });
 
@@ -54,7 +52,7 @@ export const Table: FC<ITableProps> = ({
               items: update(obj.items, {
                 $splice: [
                   [dragIndex, 1],
-                  [hoverIndex, 0, obj.items[dragIndex] as Ingredient | Group]
+                  [hoverIndex, 0, obj.items[dragIndex] as Ingredient | IGroup]
                 ],
               })
             };
@@ -83,7 +81,7 @@ export const Table: FC<ITableProps> = ({
       );
     } else if (item.type === "group") {
       return (
-        <SourceBox
+        <Group
           index={index}
           id={item.id}
           moveItem={moveItem}
@@ -94,7 +92,7 @@ export const Table: FC<ITableProps> = ({
           setRecipeData={setRecipeData}
           key={item.id}
         >
-        </SourceBox>
+        </Group>
       );
     }
   }, []);
@@ -120,13 +118,8 @@ export const Table: FC<ITableProps> = ({
           <div className="table-header__annotation">Примечание</div>
         </div>
         <div className="table__body table-body">
-          {/* {recipeBlock.items.map(
-            (item: Ingredient | Group, index: number) => renderItem(item, index)
-          )} */}
-          {/* <div style={{marginBottom: "30px"}}></div> */}
-          {/* <Container /> */}
           {recipeBlock.items.map(
-            (item: Ingredient | Group, index: number) => renderItem(item, index)
+            (item: Ingredient | IGroup, index: number) => renderItem(item, index)
           )}
           <IngredientForm 
             setEditingEnabled={setEditingEnabled}
