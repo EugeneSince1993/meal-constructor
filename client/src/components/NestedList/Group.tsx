@@ -33,10 +33,10 @@ export const Group: FC<GroupProps> = memo(function SourceBox({
   moveItem
 }) {
   // input logic
-  const [name, setName] = useState<string>(recipeBlock.items[index].name);
-  const [weight, setWeight] = useState<string | null>(recipeBlock.items[index].weight);
-  const [kcal, setKcal] = useState<string | null>(recipeBlock.items[index].kcal);
-  const [annotation, setAnnotation] = useState<string | null>(recipeBlock.items[index].annotation);
+  const [name, setName] = useState<string>(item.name);
+  const [weight, setWeight] = useState<string | null>(item.weight);
+  const [kcal, setKcal] = useState<string | null>(item.kcal);
+  const [annotation, setAnnotation] = useState<string | null>(item.annotation);
   
   const [titleInputShown, setTitleInputShown] = useState<boolean>(false);
   const [weightInputShown, setWeightInputShown] = useState<boolean>(false);
@@ -65,18 +65,29 @@ export const Group: FC<GroupProps> = memo(function SourceBox({
     }
   };
 
-  const updateInput = (index: number, propName: string, propValue: string | null) => {
-    const itemObj: any = recipeBlock.items[index];
-    itemObj[propName] = propValue;
-
-    // refactor
+  const updateInput = (id: number, propName: string, propValue: string | null) => {
     setRecipeData((prevRecipeData: IRecipeData) => {
       return {
         ...prevRecipeData,
-        recipeBlocks: [
-          ...prevRecipeData.recipeBlocks,
-          recipeBlock
-        ]
+        recipeBlocks: prevRecipeData.recipeBlocks.map((obj: IRecipeBlock) => {
+          if (obj.id === recipeBlock.id) {
+            return {
+              ...obj,
+              items: obj.items.map((el: Ingredient | IGroup, idx: number) => {
+                if (id === el.id) {
+                  return {
+                    ...el,
+                    [propName]: propValue
+                  };
+                } else {
+                  return el;
+                }
+              })
+            };
+          } else {
+            return obj;
+          }
+        })
       };
     });
 
@@ -114,11 +125,40 @@ export const Group: FC<GroupProps> = memo(function SourceBox({
   }, [titleInputShown, weightInputShown, kcalInputShown, annotationInputShown]);
 
   useEffect(() => {
-    setName(recipeBlock.items[index].name);
-    setWeight(recipeBlock.items[index].weight);
-    setKcal(recipeBlock.items[index].kcal);
-    setAnnotation(recipeBlock.items[index].annotation);
-  }, [recipeBlock]);
+    setName(item.name);
+    setWeight(item.weight);
+    setKcal(item.kcal);
+    setAnnotation(item.annotation);
+  }, [recipeData]);
+
+  const deleteSubIngredient = (index: number) => {
+    setRecipeData((prevRecipeData: IRecipeData) => {
+      return {
+        ...prevRecipeData,
+        recipeBlocks: prevRecipeData.recipeBlocks.map((obj: IRecipeBlock) => {
+          if (obj.id === recipeBlock.id) {
+            return {
+              ...obj,
+              items: obj.items.map((itemUnit: any) => {
+                if (itemUnit.id === item.id && itemUnit.hasOwnProperty('ingredients')) {
+                  return {
+                    ...itemUnit,
+                    ingredients: itemUnit.ingredients.filter((item: Ingredient, idx: number) => {
+                      return idx !== index;
+                    })
+                  };
+                } else {
+                  return itemUnit;
+                }
+              })
+            };
+          } else {
+            return obj;
+          }
+        })
+      };
+    });
+  };
 
   // dnd for tablerow
 
@@ -213,7 +253,7 @@ export const Group: FC<GroupProps> = memo(function SourceBox({
         id={subItem.id}
         moveSubItem={moveSubItem}
         item={subItem} 
-        deleteIngredient={deleteIngredient}
+        deleteSubIngredient={deleteSubIngredient}
         recipeBlock={recipeBlock}
         recipeData={recipeData}
         setRecipeData={setRecipeData}
@@ -258,7 +298,7 @@ export const Group: FC<GroupProps> = memo(function SourceBox({
             })}
             onClick={handleInfoClick}
           >
-            {item.name}
+            {name}
           </div>
           <div 
             className={classNames("table-row-title__input", {
@@ -271,7 +311,7 @@ export const Group: FC<GroupProps> = memo(function SourceBox({
               onChange={(e: ChangeEvent<HTMLInputElement>) => {
                 setName(e.target.value);
               }}
-              onBlur={() => updateInput(index, "name", name)}
+              onBlur={() => updateInput(id, "name", name)}
               ref={titleRef}
             />
           </div>
@@ -285,7 +325,7 @@ export const Group: FC<GroupProps> = memo(function SourceBox({
             })}
             onClick={handleInfoClick}
           >
-            {item.weight}
+            {weight}
           </div>
           <div 
             className={classNames("table-row-weight__input", {
@@ -298,7 +338,7 @@ export const Group: FC<GroupProps> = memo(function SourceBox({
               onChange={(e: ChangeEvent<HTMLInputElement>) => {
                 setWeight(e.target.value);
               }}
-              onBlur={() => updateInput(index, "weight", weight)}
+              onBlur={() => updateInput(id, "weight", weight)}
               ref={weightRef}  
             />
           </div>
@@ -312,7 +352,7 @@ export const Group: FC<GroupProps> = memo(function SourceBox({
             })}
             onClick={handleInfoClick}
           >
-            {item.kcal}
+            {kcal}
           </div>
           <div 
             className={classNames("table-row-kcal__input", {
@@ -325,7 +365,7 @@ export const Group: FC<GroupProps> = memo(function SourceBox({
               onChange={(e: ChangeEvent<HTMLInputElement>) => {
                 setKcal(e.target.value);
               }}
-              onBlur={() => updateInput(index, "kcal", kcal)}
+              onBlur={() => updateInput(id, "kcal", kcal)}
               ref={kcalRef}
             />
           </div>
@@ -339,7 +379,7 @@ export const Group: FC<GroupProps> = memo(function SourceBox({
             })}
             onClick={handleInfoClick}
           >
-            {item.annotation}
+            {annotation}
           </div>
           <div 
             className={classNames("table-row-annotation-input", {
@@ -352,7 +392,7 @@ export const Group: FC<GroupProps> = memo(function SourceBox({
               onChange={(e: ChangeEvent<HTMLInputElement>) => {
                 setAnnotation(e.target.value);
               }}
-              onBlur={() => updateInput(index, "annotation", annotation)}
+              onBlur={() => updateInput(id, "annotation", annotation)}
               ref={annotationRef}
             />
           </div>

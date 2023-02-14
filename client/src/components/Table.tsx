@@ -22,19 +22,22 @@ export const Table: FC<ITableProps> = ({
   editingEnabled, 
   setEditingEnabled 
 }) => {
-  // refactor
   const deleteIngredient = (index: number) => {
-    recipeBlock.items.filter((item: Ingredient | IGroup, idx: number) => {
-      return idx !== index;
-    });
-
     setRecipeData((prevRecipeData: IRecipeData) => {
       return {
         ...prevRecipeData,
-        recipeBlocks: [
-          ...prevRecipeData.recipeBlocks,
-          recipeBlock
-        ]
+        recipeBlocks: prevRecipeData.recipeBlocks.map((obj: IRecipeBlock) => {
+          if (obj.id === recipeBlock.id) {
+            return {
+              ...obj,
+              items: obj.items.filter((item: Ingredient | IGroup, idx: number) => {
+                return idx !== index;
+              })
+            };
+          } else {
+            return obj;
+          }
+        })
       };
     });
   };
