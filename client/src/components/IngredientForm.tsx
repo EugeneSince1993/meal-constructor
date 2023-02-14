@@ -30,25 +30,49 @@ export const IngredientForm: FC<IIngredientFormProps> = ({
   
   const submitHandler = (e: SyntheticEvent) => {
     e.preventDefault();
+  
+    const getRandomInt = (max: number) => {
+      return Math.floor((Math.random() * max));
+    };
 
-    if (name && weight && kcal && annotation) {
-      recipeBlock.items.map((item: Ingredient | IGroup) => {
-        return {
-          ...item,
-          name,
-          weight,
-          kcal,
-          annotation
-        };
-      });
+    let randomId: number = getRandomInt(100);
 
+    const generateRandomId = (max: number) => {
+      randomId = getRandomInt(max);
+    };
+
+    let recipeBlockItemsIds = recipeBlock.items.map((item: any) => item.id); 
+
+    if (recipeBlockItemsIds.includes(randomId)) {
+      while (recipeBlockItemsIds.includes(randomId)) {
+        generateRandomId(100);
+      }
+    }
+    
+    if (!recipeBlockItemsIds.includes(randomId) && name && weight && kcal && annotation) {
       setRecipeData((prevRecipeData: IRecipeData) => {
         return {
           ...prevRecipeData,
-          recipeBlocks: [
-            ...prevRecipeData.recipeBlocks,
-            recipeBlock
-          ]
+          recipeBlocks: prevRecipeData.recipeBlocks.map((obj: IRecipeBlock) => {
+            if (obj.id === recipeBlock.id) {
+              return {
+                ...obj,
+                items: [
+                  ...obj.items,
+                  {
+                    id: randomId,
+                    type: 'ingredient',
+                    name,
+                    weight,
+                    kcal,
+                    annotation
+                  }
+                ]
+              };
+            } else {
+              return obj;
+            }
+          })
         };
       });
 
@@ -65,7 +89,10 @@ export const IngredientForm: FC<IIngredientFormProps> = ({
 
   return (
     <form 
-      className={classNames("table-body__row", "table-row", "ingredient", "ingredient-form", {"hide": !editingEnabled})}
+      className={
+        classNames("table-body__row", "table-row", "ingredient", "ingredient-form", 
+          {"hide": !editingEnabled})
+      }
       onSubmit={submitHandler}
     >
       <div className="table-row__drag-block">
